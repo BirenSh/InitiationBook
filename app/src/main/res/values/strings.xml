@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Initiations</string>
+    <string name="person_name">Person Name</string>
+    <string name="age">Age</string>
+    <string name="full_address">Full Address</string>
+    <string name="gender">Gender</string>
+    <string name="education">Education</string>
+    <string name="occupation">Occupation</string>
+    <string name="master_name">Master Name</string>
+    <string name="introducer_name">Introducer Name</string>
+    <string name="guarantor_name">Guarantor Name</string>
+    <string name="temple_name">Temple Name</string>
+    <string name="initiation_date">Initiation Date</string>
+    <string name="merits_fee">Merits Fee</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="proceed">Proceed</string>
+</resources>
