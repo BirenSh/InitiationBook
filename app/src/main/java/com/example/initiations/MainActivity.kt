@@ -10,7 +10,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
-import com.example.initiations.di.entities.Person
+import com.example.initiations.di.entities.InitiationFiled
 import com.example.initiations.ui.theme.fragments.InitiationDetails
 import com.example.initiations.ui.theme.fragments.LoginScreenCompose
 import com.example.initiations.ui.theme.fragments.MemberDetailScreen
@@ -48,8 +48,8 @@ class MainActivity : ComponentActivity() {
                 TaocinListScreenCompose(navController)
             }
 
-            composable<Person>{
-                val arg = it.toRoute<Person>()
+            composable<InitiationFiled>{
+                val arg = it.toRoute<InitiationFiled>()
                 MemberDetailScreen(arg)
             }
         }

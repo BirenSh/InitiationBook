@@ -2,7 +2,9 @@ package com.example.initiations.di.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import kotlinx.serialization.Serializable
 
+@Serializable
 @Entity(tableName = "initiationPerson")
 data class InitiationFiled(
     @PrimaryKey(autoGenerate = true)

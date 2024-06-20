@@ -43,7 +43,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.initiations.R
 import com.example.initiations.di.entities.InitiationFiled
-import com.example.initiations.di.entities.Person
 import com.example.initiations.di.viewmodols.MainViewmodel
 import com.example.initiations.util.AppConstant
 
@@ -88,7 +87,7 @@ fun TaocinListScreenCompose(navController:NavController){
                         TaoCinCardDesign(
                             initiationFiled = member,
                             onItemClick = {
-                                navController.navigate(Person("BirendraSH"))
+                                navController.navigate(member)
                             // navigate to MemberDetail screen
                         })
 
