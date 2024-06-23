@@ -83,7 +83,6 @@ fun DynamicSelectTextField(
                     onClick = {
                         expanded.value = false
                         onValueChangedEvent(option)
-//                        selectedValue.value = option
                     }
                 )
             }

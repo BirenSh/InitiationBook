@@ -7,9 +7,12 @@ import com.example.initiations.di.entities.InitiationFiled
 
 
 @Database(
-    entities = [InitiationFiled::class],
-    version = 1,
-    exportSchema = false
+    entities = [
+        InitiationFiled::class
+    ],
+    version = 2,
+    exportSchema = false,
+
 )
 abstract class AppDatabase:RoomDatabase() {
     abstract fun commonDao(): CommonDao

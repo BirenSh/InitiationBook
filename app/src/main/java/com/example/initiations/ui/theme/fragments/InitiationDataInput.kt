@@ -1,7 +1,10 @@
 package com.example.initiations.ui.theme.fragments
 
 import android.widget.Toast
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -9,12 +12,19 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Numbers
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material3.Button
+import androidx.compose.material3.DatePickerDefaults
+import androidx.compose.material3.DatePickerDialog
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Text
+import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -25,6 +35,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
@@ -34,9 +45,11 @@ import com.example.initiations.di.viewmodols.MainViewmodel
 import com.example.initiations.ui.theme.common_compose.CustomElevatedButton
 import com.example.initiations.ui.theme.common_compose.DynamicSelectTextField
 import com.example.initiations.ui.theme.common_compose.OutlinedTextFieldCompose
+import com.example.initiations.util.DateUtil
 import java.util.Random
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun InitiationInputDataCompose(viewmodel: MainViewmodel = hiltViewModel(), navHostController: NavHostController){
     val personName = remember { mutableStateOf("") }
@@ -47,9 +60,11 @@ fun InitiationInputDataCompose(viewmodel: MainViewmodel = hiltViewModel(), navHo
     val introducerName = remember { mutableStateOf("") }
     val guarantorName = remember { mutableStateOf("") }
     val templeName = remember { mutableStateOf("") }
+    val meritsFee = remember { mutableStateOf("100") }
 
 
     val selectedValue = remember { mutableStateOf("") }
+    val initiationDate = remember { mutableStateOf("") }
 
     val localContext = LocalContext.current
 
@@ -70,7 +85,10 @@ fun InitiationInputDataCompose(viewmodel: MainViewmodel = hiltViewModel(), navHo
             masterName = masterName,
             introducerName = introducerName,
             guarantorName = guarantorName,
-            templeName = templeName
+            templeName = templeName,
+            initiationDate = initiationDate,
+            meritsFee = meritsFee
+
         )
 
         CustomElevatedButton(
@@ -89,9 +107,12 @@ fun InitiationInputDataCompose(viewmodel: MainViewmodel = hiltViewModel(), navHo
                         masterName = masterName.value,
                         introducerName = introducerName.value,
                         guarantorName = guarantorName.value,
-                        templeName = templeName.value
+                        templeName = templeName.value,
+                        initiationDate = initiationDate.value,
+                        meritFee = meritsFee.value,
                     )
                     viewmodel.insertInitiationDetails(dummyInitiationData)
+                    Toast.makeText(localContext, "Initiation Successfully Added", Toast.LENGTH_SHORT).show()
                 }else{
                     Toast.makeText(localContext, "All Filed are mandatory", Toast.LENGTH_SHORT).show()
                 }
@@ -104,6 +125,8 @@ fun InitiationInputDataCompose(viewmodel: MainViewmodel = hiltViewModel(), navHo
     }
 }
 
+
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun InputeCompose(
     personName: MutableState<String>,
@@ -114,8 +137,11 @@ fun InputeCompose(
     masterName: MutableState<String>,
     introducerName: MutableState<String>,
     guarantorName: MutableState<String>,
-    templeName: MutableState<String>
+    templeName: MutableState<String>,
+    initiationDate: MutableState<String>,
+    meritsFee: MutableState<String>,
 ) {
+
     OutlinedTextFieldCompose(
         placeHolder = stringResource(id = R.string.person_name),
         leadingIcon = Icons.Default.Person,
@@ -206,4 +232,69 @@ fun InputeCompose(
         modifier = Modifier.fillMaxWidth()
     )
 
+    OutlinedTextFieldCompose(
+        leadingIcon = Icons.Default.Edit,
+        text = meritsFee.value,
+        placeHolder = stringResource(id = R.string.merits_fee),
+        onTextChanged = {meritsFee.value  = it }, // TODO: need to add mutable value
+        modifier = Modifier.fillMaxWidth(),
+        keyBoardOption = KeyboardOptions(keyboardType =  KeyboardType.Number)
+    )
+    //date picker
+    val showDialogBox = remember { mutableStateOf(false) }
+    val datePickerState = rememberDatePickerState()
+    val datePickerToFormat = DateUtil.convertMillisecondToDate(datePickerState.selectedDateMillis)
+    initiationDate.value = datePickerToFormat
+    Text(
+        text = datePickerToFormat,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(5.dp)
+            .clickable(onClick = { showDialogBox.value = true })
+            .background(Color.Transparent, shape = RoundedCornerShape(6.dp))
+            .border(
+                border = BorderStroke(1.dp, color = Color.Gray), shape = RoundedCornerShape(6.dp)
+            )
+            .padding(15.dp)
+    )
+    if (showDialogBox.value) {
+        DatePickerDialog(
+            onDismissRequest = {
+                showDialogBox.value = false
+            },
+            confirmButton = {
+                Button(onClick = { showDialogBox.value = false }) {
+                    Text(text = "Ok")
+                }
+            }, dismissButton = {
+                Button(onClick = { showDialogBox.value = false }) {
+                    Text(text = "Cancell")
+                }
+            },
+
+        ) {
+            androidx.compose.material3.DatePicker(
+                state = datePickerState,
+                showModeToggle = true,
+                colors = DatePickerDefaults.colors()
+            )
+        }
+    }
+
+}
+
+@Preview(showSystemUi = true)
+@Composable
+fun DatePicker(){
+    Text(
+        text = "sdfsdsd",
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(5.dp)
+            .background(Color.Transparent, shape = RoundedCornerShape(6.dp))
+            .border(
+                border = BorderStroke(1.dp, color = Color.Gray), shape = RoundedCornerShape(6.dp)
+            )
+            .padding(15.dp)
+    )
 }

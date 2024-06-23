@@ -1,11 +1,13 @@
 package com.example.initiations.di.modules
 
+//import com.example.initiations.AppDatabase.Companion.ALL_MIGRATION
 import android.content.Context
 import androidx.room.Room
 import com.example.initiations.AppDatabase
 import com.example.initiations.daos.CommonDao
 import com.example.initiations.di.repositories.LocalRepository
 import com.example.initiations.di.repositories.MainRepository
+import com.example.initiations.util.Migration_1_2
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,7 +24,8 @@ class DatabaseModule {
         appContext,
         AppDatabase::class.java,
         "room_database"
-    ).build()
+    ).addMigrations(Migration_1_2())
+        .build()
 
     @Provides
     @Singleton

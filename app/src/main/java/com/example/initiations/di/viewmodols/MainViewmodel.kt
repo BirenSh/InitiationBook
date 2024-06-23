@@ -8,7 +8,6 @@ import androidx.lifecycle.viewModelScope
 import com.example.initiations.di.entities.InitiationFiled
 import com.example.initiations.di.repositories.LocalRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -36,10 +35,10 @@ class MainViewmodel @Inject constructor (
     fun getAllInitiationMembers(){
         viewModelScope.launch {
             val getMember = localRepository.getInitiationMembers()
-            viewModelScope.launch {
-                delay(3000)
-                _initiationMembers.value = getMember
-            }
+//            viewModelScope.launch {
+//                delay(3000)
+//            }
+            _initiationMembers.value = getMember
         }
     }
     fun resetvalue(){
