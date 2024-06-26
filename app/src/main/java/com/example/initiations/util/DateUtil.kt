@@ -7,14 +7,13 @@ import android.icu.text.SimpleDateFormat
 object DateUtil {
 
     @SuppressLint("SimpleDateFormat")
-    fun  convertMillisecondToDate(millisecond:Long? = System.currentTimeMillis()):String{
+    fun convertMillisecondToDate(millisecond: Long? = System.currentTimeMillis()): String {
         var mili = System.currentTimeMillis()
-        if (millisecond == null){
+        if (millisecond == null) {
             mili
-        }else mili = millisecond
+        } else mili = millisecond
         println("=========milis: $millisecond")
         val simpleDateFormat = SimpleDateFormat("yyyy/MM/dd")
-        val dateToString = simpleDateFormat.format(mili)
-        return dateToString
+        return simpleDateFormat.format(mili)
     }
 }

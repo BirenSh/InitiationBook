@@ -1,4 +1,4 @@
-package com.example.initiations.ui.theme.fragments
+package com.example.initiations.ui.theme.fragments.taocin_detail_screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

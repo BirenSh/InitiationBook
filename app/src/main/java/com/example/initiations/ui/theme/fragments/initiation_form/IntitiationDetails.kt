@@ -1,4 +1,4 @@
-package com.example.initiations.ui.theme.fragments
+package com.example.initiations.ui.theme.fragments.initiation_form
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Box

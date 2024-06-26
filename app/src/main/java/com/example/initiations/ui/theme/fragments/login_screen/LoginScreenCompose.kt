@@ -1,4 +1,4 @@
-package com.example.initiations.ui.theme.fragments
+package com.example.initiations.ui.theme.fragments.login_screen
 
 import android.widget.Toast
 import androidx.compose.foundation.background

@@ -5,6 +5,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.sqlite.db.SimpleSQLiteQuery
 import com.example.initiations.di.entities.InitiationFiled
 import com.example.initiations.di.repositories.LocalRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -35,13 +36,22 @@ class MainViewmodel @Inject constructor (
     fun getAllInitiationMembers(){
         viewModelScope.launch {
             val getMember = localRepository.getInitiationMembers()
-//            viewModelScope.launch {
-//                delay(3000)
-//            }
             _initiationMembers.value = getMember
         }
     }
-    fun resetvalue(){
-        _tasks.value = null
+    fun getFilterMembers(gender:String?, selectedYear:Int?, dharmaMeeting:Boolean){
+        viewModelScope.launch {
+            val initialQuery =StringBuilder( "Select * from initiationPerson where initiationDate like '%$selectedYear%' ")
+            if (!gender.isNullOrEmpty()){
+                 initialQuery.append ("and gender = '$gender'")
+            }
+            if (dharmaMeeting){
+                initialQuery.append ("and is2DaysDharmaClassAttend = '$dharmaMeeting'")
+            }
+            val rowQry = SimpleSQLiteQuery(initialQuery.toString())
+            println("=======final: $initialQuery")
+            val filterItems =  localRepository.getFilterMembers(rowQry)
+            _initiationMembers.value = filterItems
+        }
     }
 }

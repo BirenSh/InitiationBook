@@ -11,11 +11,11 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.example.initiations.di.entities.InitiationFiled
-import com.example.initiations.ui.theme.fragments.InitiationDetails
-import com.example.initiations.ui.theme.fragments.LoginScreenCompose
-import com.example.initiations.ui.theme.fragments.MemberDetailScreen
+import com.example.initiations.ui.theme.fragments.initiation_form.InitiationDetails
+import com.example.initiations.ui.theme.fragments.login_screen.LoginScreenCompose
+import com.example.initiations.ui.theme.fragments.taocin_detail_screen.MemberDetailScreen
 import com.example.initiations.ui.theme.fragments.SplashScreenCompose
-import com.example.initiations.ui.theme.fragments.TaocinListScreenCompose
+import com.example.initiations.ui.theme.fragments.taocin_list_screen.TaocinListScreenCompose
 import com.example.initiations.util.AppConstant
 import dagger.hilt.android.AndroidEntryPoint
 

@@ -1,5 +1,6 @@
-package com.example.initiations.ui.theme.fragments
+package com.example.initiations.ui.theme.fragments.taocin_list_screen
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -17,6 +18,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.FilterList
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -35,6 +38,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -44,6 +49,7 @@ import androidx.navigation.NavController
 import com.example.initiations.R
 import com.example.initiations.di.entities.InitiationFiled
 import com.example.initiations.di.viewmodols.MainViewmodel
+import com.example.initiations.ui.theme.fragments.taocin_list_screen.filter_list.FilterBottomSheet
 import com.example.initiations.util.AppConstant
 
 //@Preview(showSystemUi = true)
@@ -79,10 +85,6 @@ fun TaocinListScreenCompose(navController:NavController){
                 .fillMaxSize()){
 
                 LazyColumn {
-//                     items(items = memberlist, itemContent = {
-//                         TaoCinCardDesign(it)
-//                     },
-//                         )
                     items(memberlist){member ->
                         TaoCinCardDesign(
                             initiationFiled = member,
@@ -107,8 +109,11 @@ fun TaocinListScreenCompose(navController:NavController){
 
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BottomBarComposeDesign() {
+
+    val localContext = LocalContext.current
     BottomAppBar(
         containerColor = colorResource(id = R.color.orange_light),
         modifier = Modifier
@@ -117,7 +122,44 @@ fun BottomBarComposeDesign() {
                 shape = RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp), elevation = 2.dp
             )
     ) {
-//                BottomBarComposeDesign()
+        Row(
+            Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceAround,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            FilterBottomSheet()
+
+            ButtonBarItems(
+                Icons.Default.Person,
+                itemName = "person",
+                onItemClick = { Toast.makeText(localContext, "Filter", Toast.LENGTH_SHORT).show()}
+            )
+            ButtonBarItems(
+                Icons.Default.FilterList,
+                itemName = "Filter",
+                onItemClick = { Toast.makeText(localContext, "Yet to Implement", Toast.LENGTH_SHORT).show()}
+            )
+            ButtonBarItems(
+                Icons.Default.Person,
+                itemName = "Person",
+                onItemClick = { Toast.makeText(localContext, "Yet to Implement", Toast.LENGTH_SHORT).show()}
+            )
+        }
+    }
+}
+
+
+@Composable
+fun ButtonBarItems(imageVector:ImageVector, itemName:String, onItemClick: () -> Unit) {
+    Box {
+        Column(verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.clickable {
+              onItemClick()
+            }) {
+            Icon(imageVector = imageVector, contentDescription = itemName)
+            Text(text = "Filter")
+        }
     }
 }
 

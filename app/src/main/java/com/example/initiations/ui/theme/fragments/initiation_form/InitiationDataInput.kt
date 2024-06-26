@@ -1,4 +1,4 @@
-package com.example.initiations.ui.theme.fragments
+package com.example.initiations.ui.theme.fragments.initiation_form
 
 import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
