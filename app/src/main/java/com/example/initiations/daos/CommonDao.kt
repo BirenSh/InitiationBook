@@ -10,8 +10,8 @@ import com.example.initiations.di.entities.InitiationFiled
 
 @Dao
 interface CommonDao {
-    @Query("select * from initiationperson")
-    suspend fun getAllInitiationPersons(): List<InitiationFiled>
+    @Query("select * from initiationperson where initiationDate  LIKE '%' || :currentYear || '%' ")
+    suspend fun getAllInitiationPersons(currentYear:Int): List<InitiationFiled>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertInitiationDetail(initiationFiled: InitiationFiled):Long

@@ -13,8 +13,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -32,8 +30,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -49,16 +47,17 @@ import androidx.navigation.NavController
 import com.example.initiations.R
 import com.example.initiations.di.entities.InitiationFiled
 import com.example.initiations.di.viewmodols.MainViewmodel
+import com.example.initiations.ui.theme.common_compose.CircularLoader
 import com.example.initiations.ui.theme.fragments.taocin_list_screen.filter_list.FilterBottomSheet
 import com.example.initiations.util.AppConstant
 
 //@Preview(showSystemUi = true)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TaocinListScreenCompose(navController:NavController){
+fun MemberListScreen(navController:NavController){
     val mainViewmodel:MainViewmodel = hiltViewModel()
-    val memberlist = mainViewmodel.initiationMembers.value
-    val addMember = remember { mutableStateOf(false) }
+    val isLoading by mainViewmodel.isLoading.collectAsState()
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -80,22 +79,13 @@ fun TaocinListScreenCompose(navController:NavController){
             )
         },
         content = {paddingValues ->
-            Box(modifier = Modifier
-                .padding(paddingValues)
-                .fillMaxSize()){
-
-                LazyColumn {
-                    items(memberlist){member ->
-                        TaoCinCardDesign(
-                            initiationFiled = member,
-                            onItemClick = {
-                                navController.navigate(member)
-                            // navigate to MemberDetail screen
-                        })
-
-                    }
+            Box(modifier = Modifier.padding(paddingValues),
+                contentAlignment = Alignment.Center,
+            ) {
+                if (isLoading){
+                    CircularLoader("Loading Taocin...")
                 }
-
+                CustomMemberList(navController)
             }
         },
 
@@ -105,9 +95,6 @@ fun TaocinListScreenCompose(navController:NavController){
 
         )
 }
-
-
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

@@ -10,7 +10,9 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
@@ -71,6 +73,7 @@ fun MemberDetailScreen(passedArg:InitiationFiled) {
                 .fillMaxHeight()
                 .background(Color.LightGray)
                 .padding(5.dp)
+                .verticalScroll(rememberScrollState())
         ) {
             DetailWithValue(stringResource(id = R.string.master_name),passedArg.masterName)
             DetailWithValue(stringResource(id = R.string.introducer_name),passedArg.introducerName)

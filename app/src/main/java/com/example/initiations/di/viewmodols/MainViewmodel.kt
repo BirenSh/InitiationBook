@@ -1,14 +1,14 @@
 package com.example.initiations.di.viewmodols
 
 
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.sqlite.db.SimpleSQLiteQuery
 import com.example.initiations.di.entities.InitiationFiled
 import com.example.initiations.di.repositories.LocalRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -16,27 +16,37 @@ import javax.inject.Inject
 class MainViewmodel @Inject constructor (
     private val localRepository: LocalRepository
 ): ViewModel() {
-    private val _tasks = mutableStateOf<Long?>(null)
-    val tasks: State<Long?> = _tasks
-    private val _initiationMembers = mutableStateOf(listOf<InitiationFiled>())
-    val initiationMembers:State<List<InitiationFiled>> = _initiationMembers
 
+    private val _initiationMembers = MutableStateFlow(listOf<InitiationFiled>())
+    val initiationMembers = _initiationMembers
+
+    private val _searchedList= MutableStateFlow(listOf<InitiationFiled>())
+    val searchedList = _searchedList
+
+    private val _isLoading = MutableStateFlow(false)
+    val isLoading = _isLoading
     init {
+        _isLoading.value = true
         getAllInitiationMembers()
     }
+//
+
+
+
 
     fun insertInitiationDetails(initiationDetails:InitiationFiled){
         viewModelScope.launch {
-            val insertingData = localRepository.insertInitiationDetail(initiationDetails)
-            if (insertingData == null){
-                _tasks.value = 0L
-            }else _tasks.value = insertingData
+            localRepository.insertInitiationDetail(initiationDetails)
         }
     }
     fun getAllInitiationMembers(){
         viewModelScope.launch {
+            delay(5000)
             val getMember = localRepository.getInitiationMembers()
-            _initiationMembers.value = getMember
+            println("=========second: ${getMember.size}")
+            _initiationMembers.value = getMember    //updating value to initialize the list for the first time
+            _searchedList.value = getMember         // updating value to to display all the list
+            _isLoading.value = false
         }
     }
     fun getFilterMembers(gender:String?, selectedYear:Int?, dharmaMeeting:Boolean){
@@ -52,6 +62,16 @@ class MainViewmodel @Inject constructor (
             println("=======final: $initialQuery")
             val filterItems =  localRepository.getFilterMembers(rowQry)
             _initiationMembers.value = filterItems
+            _searchedList.value = filterItems
+        }
+    }
+
+    fun onSearchTextChange(searchTxt:String){
+        if (searchTxt.isEmpty()){
+            _searchedList.value = _initiationMembers.value
+        }else{
+            val filterChar = _initiationMembers.value.filter { it.personName.contains(searchTxt,true) }
+            _searchedList.value = filterChar
         }
     }
 }

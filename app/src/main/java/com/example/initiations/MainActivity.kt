@@ -15,7 +15,7 @@ import com.example.initiations.ui.theme.fragments.initiation_form.InitiationDeta
 import com.example.initiations.ui.theme.fragments.login_screen.LoginScreenCompose
 import com.example.initiations.ui.theme.fragments.taocin_detail_screen.MemberDetailScreen
 import com.example.initiations.ui.theme.fragments.SplashScreenCompose
-import com.example.initiations.ui.theme.fragments.taocin_list_screen.TaocinListScreenCompose
+import com.example.initiations.ui.theme.fragments.taocin_list_screen.MemberListScreen
 import com.example.initiations.util.AppConstant
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -45,7 +45,7 @@ class MainActivity : ComponentActivity() {
                 InitiationDetails(navController)
             }
             composable<AppConstant.SerializeScreenName.TAOCHIN_LIST_SCREEN>{
-                TaocinListScreenCompose(navController)
+                MemberListScreen(navController)
             }
 
             composable<InitiationFiled>{
