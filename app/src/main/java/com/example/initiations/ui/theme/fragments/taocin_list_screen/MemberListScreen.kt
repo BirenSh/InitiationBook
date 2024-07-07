@@ -1,6 +1,9 @@
 package com.example.initiations.ui.theme.fragments.taocin_list_screen
 
 import android.widget.Toast
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.BackHandler
+import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -57,6 +60,7 @@ import com.example.initiations.util.AppConstant
 fun MemberListScreen(navController:NavController){
     val mainViewmodel:MainViewmodel = hiltViewModel()
     val isLoading by mainViewmodel.isLoading.collectAsState()
+    val backPressedDispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
 
     Scaffold(
         topBar = {
@@ -78,11 +82,12 @@ fun MemberListScreen(navController:NavController){
                 containerColor = colorResource(id = R.color.orange_light)
             )
         },
-        content = {paddingValues ->
-            Box(modifier = Modifier.padding(paddingValues),
+        content = { paddingValues ->
+            Box(
+                modifier = Modifier.padding(paddingValues),
                 contentAlignment = Alignment.Center,
             ) {
-                if (isLoading){
+                if (isLoading) {
                     CircularLoader("Loading Taocin...")
                 }
                 CustomMemberList(navController)
@@ -93,8 +98,15 @@ fun MemberListScreen(navController:NavController){
             BottomBarComposeDesign()
         }
 
-        )
+    )
+
+    BackHandler {
+        (navController.context as ComponentActivity).finish()
+    }
+
+
 }
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -186,6 +198,7 @@ fun TaoCinCardDesign(initiationFiled: InitiationFiled, onItemClick:(InitiationFi
         }
     }
 }
+
 
 
 @Preview(showSystemUi = true)

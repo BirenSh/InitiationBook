@@ -42,6 +42,7 @@ import androidx.navigation.NavHostController
 import com.example.initiations.R
 import com.example.initiations.di.entities.InitiationFiled
 import com.example.initiations.di.viewmodols.MainViewmodel
+import com.example.initiations.ui.theme.common_compose.CustomAlertDialog
 import com.example.initiations.ui.theme.common_compose.CustomElevatedButton
 import com.example.initiations.ui.theme.common_compose.DynamicSelectTextField
 import com.example.initiations.ui.theme.common_compose.OutlinedTextFieldCompose
@@ -53,7 +54,7 @@ import java.util.Random
 @Composable
 fun InitiationInputDataCompose(viewmodel: MainViewmodel = hiltViewModel(), navHostController: NavHostController){
     val personName = remember { mutableStateOf("") }
-    val personAge = remember { mutableStateOf("") }
+    val personAge = remember { mutableStateOf(0) }
     val education = remember { mutableStateOf("") }
     val fullAddress = remember { mutableStateOf("") }
     val masterName = remember { mutableStateOf("") }
@@ -65,6 +66,10 @@ fun InitiationInputDataCompose(viewmodel: MainViewmodel = hiltViewModel(), navHo
 
     val selectedValue = remember { mutableStateOf("") }
     val initiationDate = remember { mutableStateOf("") }
+
+    val openDialogBox = remember {
+        mutableStateOf(false)
+    }
 
     val localContext = LocalContext.current
 
@@ -91,28 +96,31 @@ fun InitiationInputDataCompose(viewmodel: MainViewmodel = hiltViewModel(), navHo
 
         )
 
+        val dummyInitiationData = InitiationFiled(
+            id = Random().nextInt(),
+            personName =personName.value,
+            personAge = personAge.value,
+            gender = selectedValue.value,
+            education = education.value,
+            fullAddress =fullAddress.value,
+            masterName = masterName.value,
+            introducerName = introducerName.value,
+            guarantorName = guarantorName.value,
+            templeName = templeName.value,
+            initiationDate = initiationDate.value,
+            meritFee = meritsFee.value?:"100",
+        )
+
+        val validation = personName.value.isNotEmpty() && personAge.value.toString().isNotEmpty() && selectedValue.value.isNotEmpty()
+            && education.value.isNotEmpty() && fullAddress.value.isNotEmpty() && masterName.value.isNotEmpty()
+            && introducerName.value.isNotEmpty() && guarantorName.value.isNotEmpty() && templeName.value.isNotEmpty()
+
+
         CustomElevatedButton(
             text = stringResource(id = R.string.proceed),
             onClick = {
-                if (personName.value.isNotEmpty() && personAge.value.isNotEmpty() && selectedValue.value.isNotEmpty()
-                    && education.value.isNotEmpty() && fullAddress.value.isNotEmpty() && masterName.value.isNotEmpty()
-                    && introducerName.value.isNotEmpty() && guarantorName.value.isNotEmpty() && templeName.value.isNotEmpty()){
-                    val dummyInitiationData = InitiationFiled(
-                        id = Random().nextInt(),
-                        personName =personName.value,
-                        personAge = personAge.value.toInt(),
-                        gender = selectedValue.value,
-                        education = education.value,
-                        fullAddress =fullAddress.value,
-                        masterName = masterName.value,
-                        introducerName = introducerName.value,
-                        guarantorName = guarantorName.value,
-                        templeName = templeName.value,
-                        initiationDate = initiationDate.value,
-                        meritFee = meritsFee.value,
-                    )
-                    viewmodel.insertInitiationDetails(dummyInitiationData)
-                    Toast.makeText(localContext, "Initiation Successfully Added", Toast.LENGTH_SHORT).show()
+                if (validation){
+                    openDialogBox.value = true
                 }else{
                     Toast.makeText(localContext, "All Filed are mandatory", Toast.LENGTH_SHORT).show()
                 }
@@ -121,6 +129,18 @@ fun InitiationInputDataCompose(viewmodel: MainViewmodel = hiltViewModel(), navHo
                 .fillMaxWidth()
                 .padding(start = 20.dp, end = 20.dp)
         )
+        if (openDialogBox.value){
+           CustomAlertDialog(
+               onDismissRequest = { openDialogBox.value = false },
+               onConfirmation = {
+                   openDialogBox.value = false
+                   viewmodel.insertInitiationDetails(dummyInitiationData)
+                   Toast.makeText(localContext, "Initiation Successfully Added", Toast.LENGTH_SHORT).show()
+               },
+               title = "Adding New Member",
+               text = "These detail are important to be input correctly, Please confirm "
+           )
+        }
 
     }
 }
@@ -130,7 +150,7 @@ fun InitiationInputDataCompose(viewmodel: MainViewmodel = hiltViewModel(), navHo
 @Composable
 fun InputeCompose(
     personName: MutableState<String>,
-    personAge: MutableState<String>,
+
     selectedValue: MutableState<String>,
     education: MutableState<String>,
     fullAddress: MutableState<String>,
@@ -140,6 +160,7 @@ fun InputeCompose(
     templeName: MutableState<String>,
     initiationDate: MutableState<String>,
     meritsFee: MutableState<String>,
+    personAge: MutableState<Int>,
 ) {
 
     OutlinedTextFieldCompose(
@@ -160,8 +181,8 @@ fun InputeCompose(
         OutlinedTextFieldCompose(
             placeHolder = stringResource(id = R.string.age),
             leadingIcon = Icons.Filled.Numbers,
-            text = personAge.value,
-            onTextChanged = { personAge.value = it}, // TODO: need to add mutable value
+            text = personAge.value.toString(),
+            onTextChanged = { personAge.value = it.toInt()}, // TODO: need to add mutable value
             modifier = Modifier.weight(1f),
             keyBoardOption = KeyboardOptions(keyboardType = KeyboardType.Number)
         )

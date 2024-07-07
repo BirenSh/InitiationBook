@@ -22,7 +22,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.example.initiations.di.entities.InitiationFiled
 import com.example.initiations.di.viewmodols.MainViewmodel
 
 //@Preview(showSystemUi = true)
@@ -49,7 +48,7 @@ import com.example.initiations.di.viewmodols.MainViewmodel
                 },
                 onSearch = { mainViewmodel.onSearchTextChange(searchText.value) } ,
                 active =false,
-                onActiveChange ={false},
+                onActiveChange ={},
                 placeholder = { Text(text = "Search by Name")},
                 leadingIcon = { Icon(imageVector = Icons.Default.Search , contentDescription = "search icon")},
                 trailingIcon = {
@@ -57,7 +56,8 @@ import com.example.initiations.di.viewmodols.MainViewmodel
                         imageVector = Icons.Default.Cancel,
                         contentDescription = "search icon",
                         modifier = Modifier.clickable {
-
+                            mainViewmodel.onSearchTextChange("")
+                            searchText.value = ""
                         }
                     )
                 },
@@ -80,6 +80,3 @@ import com.example.initiations.di.viewmodols.MainViewmodel
     }
 }
 
-fun fetchTheList(mainViewmodel: MainViewmodel): List<InitiationFiled> {
-    return mainViewmodel.initiationMembers.value
-}
