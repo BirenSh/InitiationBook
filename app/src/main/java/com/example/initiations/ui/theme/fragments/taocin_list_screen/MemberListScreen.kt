@@ -35,6 +35,9 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -53,6 +56,7 @@ import com.example.initiations.di.viewmodols.MainViewmodel
 import com.example.initiations.ui.theme.common_compose.CircularLoader
 import com.example.initiations.ui.theme.fragments.taocin_list_screen.filter_list.FilterBottomSheet
 import com.example.initiations.util.AppConstant
+import java.util.Calendar
 
 //@Preview(showSystemUi = true)
 @OptIn(ExperimentalMaterial3Api::class)
@@ -126,7 +130,24 @@ fun BottomBarComposeDesign() {
             horizontalArrangement = Arrangement.SpaceAround,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            FilterBottomSheet()
+            val is2DaysDmCompleteFilter = remember { mutableStateOf(false) }
+            val isMaleFilter = remember { mutableStateOf(false) }
+            val isFemaleFilter = remember { mutableStateOf(false) }
+            val selectedDateFilter = remember { mutableStateOf(Calendar.getInstance().get(Calendar.YEAR)) }
+            val listOfYear = (2020..2088).toList()
+//            val currentYear = Calendar.getInstance().get(Calendar.YEAR)
+            val getIndexOfYear = listOfYear.indexOf(selectedDateFilter.value)
+            val defaultSelectedYear = remember { mutableIntStateOf(getIndexOfYear) }
+
+
+            FilterBottomSheet(
+                is2DaysDmCompleteFilter = is2DaysDmCompleteFilter,
+                isMaleFilter = isMaleFilter,
+                isFemaleFilter = isFemaleFilter,
+                selectedDateFilter = selectedDateFilter,
+                selectedIndex = defaultSelectedYear,
+                listOfYear = listOfYear
+            )
 
             ButtonBarItems(
                 Icons.Default.Person,

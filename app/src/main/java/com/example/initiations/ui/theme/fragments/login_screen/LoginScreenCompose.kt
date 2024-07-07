@@ -27,8 +27,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.initiations.R
-import com.example.initiations.ui.theme.common_compose.CustomElevatedButton
-import com.example.initiations.ui.theme.common_compose.OutlinedTextFieldCompose
+import com.example.initiations.ui.theme.common_compose.*
 import com.example.initiations.util.AppConstant
 
 @Composable

@@ -5,9 +5,9 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -19,9 +19,11 @@ import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.MutableIntState
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -30,7 +32,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.initiations.R
@@ -38,11 +39,18 @@ import com.example.initiations.di.viewmodols.MainViewmodel
 import com.example.initiations.ui.theme.fragments.taocin_list_screen.ButtonBarItems
 import java.util.Calendar
 
-@Preview(showSystemUi = true)
+//@Preview(showSystemUi = true)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FilterBottomSheet() {
+fun FilterBottomSheet(
+    is2DaysDmCompleteFilter: MutableState<Boolean>,
+    isMaleFilter: MutableState<Boolean>,
+    isFemaleFilter: MutableState<Boolean>,
+    selectedDateFilter: MutableState<Int>,
+    selectedIndex: MutableIntState,
+    listOfYear: List<Int>
+) {
     val mainViewmodel: MainViewmodel = hiltViewModel()
     val sheetState = rememberModalBottomSheetState()
     val showBottomSheet = remember { mutableStateOf(false) }
@@ -58,19 +66,25 @@ fun FilterBottomSheet() {
         }
     )
     if (showBottomSheet.value) {
-        val is2DaysDmCompleteFilter = remember { mutableStateOf(false) }
-        val isMaleFilter = remember { mutableStateOf(false) }
-        val isFemaleFilter = remember { mutableStateOf(false) }
-        val selectedDateFilter = remember {mutableStateOf(Calendar.getInstance().get(Calendar.YEAR))}
         ModalBottomSheet(
             onDismissRequest = { showBottomSheet.value = false },
             sheetState = sheetState,
         ) {
             Box(
                 Modifier
-                    .fillMaxHeight(0.5f)
+                    .wrapContentHeight(align = Alignment.CenterVertically)
                     .padding(8.dp),) {
                 Column(verticalArrangement = Arrangement.SpaceAround) {
+                    TextButton(onClick = {
+                        is2DaysDmCompleteFilter.value = false
+                        isMaleFilter.value = false
+                        isFemaleFilter.value = false
+                        val currentYear = Calendar.getInstance().get(Calendar.YEAR)
+                        selectedIndex.intValue= listOfYear.indexOf(currentYear)
+                        mainViewmodel.getFilterMembers(selectedYear = selectedIndex.intValue, gender = null, dharmaMeeting = false)
+                    }) {
+                        Text(text = "Clear Filter")
+                    }
                     // 2Days DM checkbox
                     Row(horizontalArrangement = Arrangement.Center,
                         verticalAlignment = Alignment.CenterVertically) {
@@ -113,10 +127,7 @@ fun FilterBottomSheet() {
                             .fillMaxWidth()
                             .padding(5.dp),
                     )
-                    val listOfYear = (2020..2088).toList()
-                    val currentYear = Calendar.getInstance().get(Calendar.YEAR)
-                    val getIndexOfYear = listOfYear.indexOf(currentYear)
-                    val selectedIndex = remember { mutableIntStateOf(getIndexOfYear) }
+
                     LazyRow(Modifier.padding(3.dp)) {
                         itemsIndexed(listOfYear){index,year->
                             val isSelected = selectedIndex.intValue == index
