@@ -20,6 +20,7 @@ import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Numbers
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Button
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.DatePickerDefaults
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -62,6 +63,7 @@ fun InitiationInputDataCompose(viewmodel: MainViewmodel = hiltViewModel(), navHo
     val guarantorName = remember { mutableStateOf("") }
     val templeName = remember { mutableStateOf("") }
     val meritsFee = remember { mutableStateOf("100") }
+    val is2dayDharmaMeetingCompleted = remember { mutableStateOf(false) }
 
 
     val selectedValue = remember { mutableStateOf("") }
@@ -81,7 +83,7 @@ fun InitiationInputDataCompose(viewmodel: MainViewmodel = hiltViewModel(), navHo
         horizontalAlignment = Alignment.CenterHorizontally
 
     ) {
-        InputeCompose(
+        InputCompose(
             personName = personName,
             personAge = personAge,
             selectedValue = selectedValue,
@@ -92,7 +94,8 @@ fun InitiationInputDataCompose(viewmodel: MainViewmodel = hiltViewModel(), navHo
             guarantorName = guarantorName,
             templeName = templeName,
             initiationDate = initiationDate,
-            meritsFee = meritsFee
+            meritsFee = meritsFee,
+            is2DaysDharmaCompleted = is2dayDharmaMeetingCompleted
 
         )
 
@@ -109,6 +112,7 @@ fun InitiationInputDataCompose(viewmodel: MainViewmodel = hiltViewModel(), navHo
             templeName = templeName.value,
             initiationDate = initiationDate.value,
             meritFee = meritsFee.value?:"100",
+            is2DaysDharmaClassAttend =  is2dayDharmaMeetingCompleted.value?:false
         )
 
         val validation = personName.value.isNotEmpty() && personAge.value.toString().isNotEmpty() && selectedValue.value.isNotEmpty()
@@ -148,9 +152,8 @@ fun InitiationInputDataCompose(viewmodel: MainViewmodel = hiltViewModel(), navHo
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun InputeCompose(
+fun InputCompose(
     personName: MutableState<String>,
-
     selectedValue: MutableState<String>,
     education: MutableState<String>,
     fullAddress: MutableState<String>,
@@ -161,6 +164,7 @@ fun InputeCompose(
     initiationDate: MutableState<String>,
     meritsFee: MutableState<String>,
     personAge: MutableState<Int>,
+    is2DaysDharmaCompleted: MutableState<Boolean>
 ) {
 
     OutlinedTextFieldCompose(
@@ -300,6 +304,11 @@ fun InputeCompose(
                 colors = DatePickerDefaults.colors()
             )
         }
+    }
+    Row(verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween) {
+        Checkbox(checked = is2DaysDharmaCompleted.value, onCheckedChange = { is2DaysDharmaCompleted.value = it})
+        Text(text = "2 Day Dharma meeting Attended")
     }
 
 }

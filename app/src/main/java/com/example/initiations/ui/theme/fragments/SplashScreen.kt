@@ -33,7 +33,7 @@ fun SplashScreenCompose(navController: NavHostController) {
         navController.navigate(AppConstant.FragmentTitles.LOGIN_SCREEN)
     }
     Image(
-        painter = painterResource(id =R.drawable.mct_logo ),
+        painter = painterResource(id =R.drawable.kotlin ),
         contentDescription = "MCT logo",
         modifier = Modifier.fillMaxSize()
             .scale(scale.value),

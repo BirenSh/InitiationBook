@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
@@ -73,6 +74,7 @@ fun FilterBottomSheet(
             Box(
                 Modifier
                     .wrapContentHeight(align = Alignment.CenterVertically)
+                    .fillMaxHeight(0.7f)
                     .padding(8.dp),) {
                 Column(verticalArrangement = Arrangement.SpaceAround) {
                     TextButton(onClick = {
@@ -82,6 +84,7 @@ fun FilterBottomSheet(
                         val currentYear = Calendar.getInstance().get(Calendar.YEAR)
                         selectedIndex.intValue= listOfYear.indexOf(currentYear)
                         mainViewmodel.getFilterMembers(selectedYear = selectedIndex.intValue, gender = null, dharmaMeeting = false)
+                        showBottomSheet.value = false
                     }) {
                         Text(text = "Clear Filter")
                     }

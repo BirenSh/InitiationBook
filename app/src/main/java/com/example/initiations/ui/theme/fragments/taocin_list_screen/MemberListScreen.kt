@@ -21,6 +21,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.FilterList
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Verified
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -183,6 +184,7 @@ fun ButtonBarItems(imageVector:ImageVector, itemName:String, onItemClick: () -> 
     }
 }
 
+
 @Composable
 fun TaoCinCardDesign(initiationFiled: InitiationFiled, onItemClick:(InitiationFiled)->Unit ){
     Card(modifier = Modifier
@@ -197,6 +199,7 @@ fun TaoCinCardDesign(initiationFiled: InitiationFiled, onItemClick:(InitiationFi
             horizontalArrangement = Arrangement.Start,
             modifier = Modifier
                 .fillMaxSize()
+                .padding(5.dp)
         ) {
             Image(
                 painter = painterResource(id = R.drawable.user_profile),
@@ -216,6 +219,20 @@ fun TaoCinCardDesign(initiationFiled: InitiationFiled, onItemClick:(InitiationFi
                 Text(text = initiationFiled.templeName,
                     style = MaterialTheme.typography.labelMedium)
             }
+
+            if (initiationFiled.is2DaysDharmaClassAttend){
+                Box(
+                    Modifier.padding(start = 20.dp)
+                    .fillMaxWidth()
+                    .weight(1f),
+                    contentAlignment = Alignment.CenterEnd) {
+                    Icon(
+                        imageVector = Icons.Default.Verified,
+                        contentDescription ="Person",
+                    )
+
+                }
+            }
         }
     }
 }
@@ -225,6 +242,6 @@ fun TaoCinCardDesign(initiationFiled: InitiationFiled, onItemClick:(InitiationFi
 @Preview(showSystemUi = true)
 @Composable
 fun PreviewUI(){
-    BottomBarComposeDesign()
+    TaoCinCardDesign(InitiationFiled(1, personName = "birad", is2DaysDharmaClassAttend = true), onItemClick = {})
 
 }
