@@ -10,7 +10,7 @@ import com.example.initiations.di.entities.InitiationFiled
     entities = [
         InitiationFiled::class
     ],
-    version = 2,
+    version = 3,
     exportSchema = false,
 
 )

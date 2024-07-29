@@ -17,13 +17,14 @@ import com.example.initiations.ui.theme.fragments.login_screen.LoginScreenCompos
 import com.example.initiations.ui.theme.fragments.taocin_detail_screen.MemberDetailScreen
 import com.example.initiations.ui.theme.fragments.taocin_list_screen.MemberListScreen
 import com.example.initiations.util.AppConstant
+import com.google.firebase.FirebaseApp
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        FirebaseApp.initializeApp(this)
         setContent(){
             Navigation()
         }

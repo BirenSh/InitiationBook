@@ -33,6 +33,8 @@ data class InitiationFiled(
     @Nonnull
     val meritFee:String = "",
     @Nonnull
-    val is2DaysDharmaClassAttend:Boolean = false
+    val is2DaysDharmaClassAttend:Boolean = false,
+    @Nonnull
+    val dharmaMeetingDate:String = ""
 
 )

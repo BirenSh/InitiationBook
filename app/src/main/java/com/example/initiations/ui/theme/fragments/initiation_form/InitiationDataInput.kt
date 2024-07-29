@@ -55,7 +55,7 @@ import java.util.Random
 @Composable
 fun InitiationInputDataCompose(viewmodel: MainViewmodel = hiltViewModel(), navHostController: NavHostController){
     val personName = remember { mutableStateOf("") }
-    val personAge = remember { mutableStateOf(0) }
+    val personAge = remember { mutableStateOf("0") }
     val education = remember { mutableStateOf("") }
     val fullAddress = remember { mutableStateOf("") }
     val masterName = remember { mutableStateOf("") }
@@ -102,7 +102,7 @@ fun InitiationInputDataCompose(viewmodel: MainViewmodel = hiltViewModel(), navHo
         val dummyInitiationData = InitiationFiled(
             id = Random().nextInt(),
             personName =personName.value,
-            personAge = personAge.value,
+            personAge = if (personAge.value.isNotEmpty()) personAge.value.toInt() else 0,
             gender = selectedValue.value,
             education = education.value,
             fullAddress =fullAddress.value,
@@ -163,7 +163,7 @@ fun InputCompose(
     templeName: MutableState<String>,
     initiationDate: MutableState<String>,
     meritsFee: MutableState<String>,
-    personAge: MutableState<Int>,
+    personAge: MutableState<String>,
     is2DaysDharmaCompleted: MutableState<Boolean>
 ) {
 
@@ -171,7 +171,7 @@ fun InputCompose(
         placeHolder = stringResource(id = R.string.person_name),
         leadingIcon = Icons.Default.Person,
         text = personName.value,
-        onTextChanged = { personName.value = it }, // TODO: need to add mutable value
+        onTextChanged = { personName.value = it },
         modifier = Modifier.fillMaxWidth(1f)
     )
 
@@ -186,7 +186,7 @@ fun InputCompose(
             placeHolder = stringResource(id = R.string.age),
             leadingIcon = Icons.Filled.Numbers,
             text = personAge.value.toString(),
-            onTextChanged = { personAge.value = it.toInt()}, // TODO: need to add mutable value
+            onTextChanged = { personAge.value = it},
             modifier = Modifier.weight(1f),
             keyBoardOption = KeyboardOptions(keyboardType = KeyboardType.Number)
         )
@@ -213,7 +213,7 @@ fun InputCompose(
         leadingIcon = Icons.Filled.Edit,
         text = education.value,
         placeHolder = stringResource(id = R.string.education),
-        onTextChanged = { education.value = it}, // TODO: need to add mutable value
+        onTextChanged = { education.value = it},
         modifier = Modifier.fillMaxWidth()
     )
 
@@ -221,7 +221,7 @@ fun InputCompose(
         leadingIcon = Icons.Default.Edit,
         text = fullAddress.value,
         placeHolder = stringResource(id = R.string.full_address),
-        onTextChanged = { fullAddress.value = it }, // TODO: need to add mutable value
+        onTextChanged = { fullAddress.value = it },
         modifier = Modifier.fillMaxWidth()
     )
 
@@ -229,7 +229,7 @@ fun InputCompose(
         leadingIcon = Icons.Default.Person,
         text = masterName.value,
         placeHolder = stringResource(id = R.string.master_name),
-        onTextChanged = {masterName.value = it}, // TODO: need to add mutable value
+        onTextChanged = {masterName.value = it},
         modifier = Modifier.fillMaxWidth()
     )
 
@@ -237,7 +237,7 @@ fun InputCompose(
         leadingIcon = Icons.Default.Person,
         text = introducerName.value,
         placeHolder = stringResource(id = R.string.introducer_name),
-        onTextChanged = {introducerName.value = it }, // TODO: need to add mutable value
+        onTextChanged = {introducerName.value = it },
         modifier = Modifier.fillMaxWidth()
     )
 
@@ -245,7 +245,7 @@ fun InputCompose(
         leadingIcon = Icons.Default.Person,
         text = guarantorName.value,
         placeHolder = stringResource(id = R.string.guarantor_name),
-        onTextChanged = {guarantorName.value  = it}, // TODO: need to add mutable value
+        onTextChanged = {guarantorName.value  = it},
         modifier = Modifier.fillMaxWidth()
     )
 
@@ -253,7 +253,7 @@ fun InputCompose(
         leadingIcon = Icons.Default.Edit,
         text = templeName.value,
         placeHolder = stringResource(id = R.string.temple_name),
-        onTextChanged = {templeName.value  = it }, // TODO: need to add mutable value
+        onTextChanged = {templeName.value  = it },
         modifier = Modifier.fillMaxWidth()
     )
 
@@ -261,7 +261,7 @@ fun InputCompose(
         leadingIcon = Icons.Default.Edit,
         text = meritsFee.value,
         placeHolder = stringResource(id = R.string.merits_fee),
-        onTextChanged = {meritsFee.value  = it }, // TODO: need to add mutable value
+        onTextChanged = {meritsFee.value  = it },
         modifier = Modifier.fillMaxWidth(),
         keyBoardOption = KeyboardOptions(keyboardType =  KeyboardType.Number)
     )

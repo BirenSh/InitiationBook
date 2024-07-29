@@ -21,6 +21,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.FilterList
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.RestartAlt
 import androidx.compose.material.icons.filled.Verified
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Card
@@ -68,12 +69,28 @@ fun MemberListScreen(navController:NavController){
     val backPressedDispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
 
     Scaffold(
+
         topBar = {
             TopAppBar(
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = colorResource(id = R.color.orange_light)
                 ),
-                title = { Text(text = "Person Data") },
+                title = {
+                    Row(horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(5.dp)) {
+                        Text(text = "Person Data")
+                        Icon(
+                            imageVector = Icons.Default.RestartAlt,
+                            contentDescription = "Reload",
+                            modifier = Modifier.clickable {
+                                mainViewmodel.getAllInitiationMembers()
+                            }
+                        )
+                    }
+                },
             )
         },
         floatingActionButton = {
@@ -92,9 +109,6 @@ fun MemberListScreen(navController:NavController){
                 modifier = Modifier.padding(paddingValues),
                 contentAlignment = Alignment.Center,
             ) {
-                if (isLoading) {
-                    CircularLoader("Loading Taocin...")
-                }
                 CustomMemberList(navController)
             }
         },
@@ -104,6 +118,11 @@ fun MemberListScreen(navController:NavController){
         }
 
     )
+
+
+    if (isLoading) {
+        CircularLoader("Loading Taocin...")
+    }
 
     BackHandler {
         (navController.context as ComponentActivity).finish()
@@ -222,9 +241,10 @@ fun TaoCinCardDesign(initiationFiled: InitiationFiled, onItemClick:(InitiationFi
 
             if (initiationFiled.is2DaysDharmaClassAttend){
                 Box(
-                    Modifier.padding(start = 20.dp)
-                    .fillMaxWidth()
-                    .weight(1f),
+                    Modifier
+                        .padding(start = 20.dp)
+                        .fillMaxWidth()
+                        .weight(1f),
                     contentAlignment = Alignment.CenterEnd) {
                     Icon(
                         imageVector = Icons.Default.Verified,
@@ -235,6 +255,11 @@ fun TaoCinCardDesign(initiationFiled: InitiationFiled, onItemClick:(InitiationFi
             }
         }
     }
+}
+
+@Composable
+fun dataLoading() {
+    CircularLoader("Data is loging...")
 }
 
 
