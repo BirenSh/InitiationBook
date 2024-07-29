@@ -8,7 +8,7 @@ object AppConstant {
         const val SPLASH_SCREEN = "SplashScreen"
         const val LOGIN_SCREEN = "LoginScreen"
         const val INITIATION_INSERTION = "InitiationInsertion"
-//        const val TAOCIN_LIST_SCREEN = "TaocinListScreen"
+        const val UPLOAD_COMPLETE_SCREEN = "UploadCompleteScreen"
         const val MEMBER_DETAIL_SCREEN = "MemberDetailScreen"
 
     }

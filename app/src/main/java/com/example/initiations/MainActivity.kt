@@ -12,6 +12,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.example.initiations.di.entities.InitiationFiled
 import com.example.initiations.ui.theme.fragments.SplashScreenCompose
+import com.example.initiations.ui.theme.fragments.UploadCompleteScreen
 import com.example.initiations.ui.theme.fragments.initiation_form.InitiationDetails
 import com.example.initiations.ui.theme.fragments.login_screen.LoginScreenCompose
 import com.example.initiations.ui.theme.fragments.taocin_detail_screen.MemberDetailScreen
@@ -52,6 +53,9 @@ class MainActivity : ComponentActivity() {
             composable<InitiationFiled>{
                 val arg = it.toRoute<InitiationFiled>()
                 MemberDetailScreen(arg)
+            }
+            composable(AppConstant.FragmentTitles.UPLOAD_COMPLETE_SCREEN) {
+                UploadCompleteScreen(navController)
             }
         }
     }

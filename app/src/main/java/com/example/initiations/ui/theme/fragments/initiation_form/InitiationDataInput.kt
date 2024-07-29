@@ -47,6 +47,7 @@ import com.example.initiations.ui.theme.common_compose.CustomAlertDialog
 import com.example.initiations.ui.theme.common_compose.CustomElevatedButton
 import com.example.initiations.ui.theme.common_compose.DynamicSelectTextField
 import com.example.initiations.ui.theme.common_compose.OutlinedTextFieldCompose
+import com.example.initiations.util.AppConstant
 import com.example.initiations.util.DateUtil
 import java.util.Random
 
@@ -140,6 +141,7 @@ fun InitiationInputDataCompose(viewmodel: MainViewmodel = hiltViewModel(), navHo
                    openDialogBox.value = false
                    viewmodel.insertInitiationDetails(dummyInitiationData)
                    Toast.makeText(localContext, "Initiation Successfully Added", Toast.LENGTH_SHORT).show()
+                   navHostController.navigate(AppConstant.FragmentTitles.UPLOAD_COMPLETE_SCREEN)
                },
                title = "Adding New Member",
                text = "These detail are important to be input correctly, Please confirm "

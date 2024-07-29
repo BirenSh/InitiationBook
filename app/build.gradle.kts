@@ -97,5 +97,9 @@ dependencies {
     //serialization
     implementation(libs.kotlinx.serialization.json)
 
+    //lottie animation
+    implementation (libs.lottie.compose)
+
+
 
 }
