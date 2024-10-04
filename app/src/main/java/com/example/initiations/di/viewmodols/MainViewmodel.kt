@@ -29,17 +29,10 @@ class MainViewmodel @Inject constructor (
     init {
         getAllInitiationMembers()
     }
-//
 
-
-
-
-    fun insertInitiationDetails(initiationDetails:InitiationFiled){
-        viewModelScope.launch {
-            localRepository.insertInitiationDetail(initiationDetails)
-        }
-    }
     fun getAllInitiationMembers(){
+        val defaultList = arrayListOf<InitiationFiled>()
+        _isLoading.value=  true
         viewModelScope.launch {
             _isLoading.value = true
             delay(5000)
@@ -50,6 +43,28 @@ class MainViewmodel @Inject constructor (
             _isLoading.value = false
 
         }
+
+        // getting data from firebase
+//        viewModelScope.launch {
+//            delay(5000)
+//            val firebaseRef  = firestore.collection("Hong ci").document("2024").collection("InitiationMembers")
+//            firebaseRef.get()
+//                .addOnSuccessListener {documentSnapshot->
+//                   for(doc in documentSnapshot){
+//                       val data = doc.toObject<InitiationFiled>(InitiationFiled::class.java)
+//                       defaultList.add(data)
+//                       println("=====dataName: ${data.personName}")
+//                       _initiationMembers.value = defaultList
+//                       _searchedList.value = defaultList
+//                       _isLoading.value = false
+//                   }
+//
+//                }
+//                .addOnFailureListener { exception->
+//                    println("========ex: $exception")
+//                }
+//
+//        }
     }
 
     fun getFilterMembers(gender:String?, selectedYear:Int?, dharmaMeeting:Boolean){
@@ -66,6 +81,7 @@ class MainViewmodel @Inject constructor (
             val filterItems =  localRepository.getFilterMembers(rowQry)
             _initiationMembers.value = filterItems
             _searchedList.value = filterItems
+
         }
     }
 

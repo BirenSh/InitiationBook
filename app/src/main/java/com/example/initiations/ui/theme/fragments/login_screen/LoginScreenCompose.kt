@@ -27,7 +27,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.initiations.R
-import com.example.initiations.ui.theme.common_compose.*
+import com.example.initiations.ui.theme.common_compose.CustomElevatedButton
+import com.example.initiations.ui.theme.common_compose.OutlinedTextFieldCompose
 import com.example.initiations.util.AppConstant
 
 @Composable
@@ -38,6 +39,7 @@ fun LoginScreenCompose(navController: NavHostController) {
     var password by remember { mutableStateOf("") }
     username = AppConstant.LOGIN_USER_NAME
     password = AppConstant.LOGIN_PASSWORD
+
 
     Box(modifier = Modifier
         .background(colorResource(id = R.color.orange_light))

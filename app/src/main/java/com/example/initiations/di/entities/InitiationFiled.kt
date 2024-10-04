@@ -9,7 +9,7 @@ import javax.annotation.Nonnull
 @Entity(tableName = "initiationPerson")
 data class InitiationFiled(
     @PrimaryKey(autoGenerate = true)
-    val id:Int ,
+    val id:Int = 0 ,
     @Nonnull
     val personName :String = "",
     @Nonnull

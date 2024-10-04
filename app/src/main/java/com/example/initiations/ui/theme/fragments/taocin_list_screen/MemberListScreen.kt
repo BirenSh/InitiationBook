@@ -220,6 +220,7 @@ fun TaoCinCardDesign(initiationFiled: InitiationFiled, onItemClick:(InitiationFi
                 .fillMaxSize()
                 .padding(5.dp)
         ) {
+
             Image(
                 painter = painterResource(id = R.drawable.user_profile),
                 contentDescription ="Person",

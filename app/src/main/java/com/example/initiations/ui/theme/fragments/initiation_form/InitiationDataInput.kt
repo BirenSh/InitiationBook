@@ -28,6 +28,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -42,7 +44,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.initiations.R
 import com.example.initiations.di.entities.InitiationFiled
-import com.example.initiations.di.viewmodols.MainViewmodel
+import com.example.initiations.di.viewmodols.InitiationInputDataViewModel
+import com.example.initiations.ui.theme.common_compose.CircularLoader
 import com.example.initiations.ui.theme.common_compose.CustomAlertDialog
 import com.example.initiations.ui.theme.common_compose.CustomElevatedButton
 import com.example.initiations.ui.theme.common_compose.DynamicSelectTextField
@@ -54,7 +57,7 @@ import java.util.Random
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun InitiationInputDataCompose(viewmodel: MainViewmodel = hiltViewModel(), navHostController: NavHostController){
+fun InitiationInputDataCompose(viewmodel: InitiationInputDataViewModel = hiltViewModel(), navHostController: NavHostController){
     val personName = remember { mutableStateOf("") }
     val personAge = remember { mutableStateOf("0") }
     val education = remember { mutableStateOf("") }
@@ -73,6 +76,9 @@ fun InitiationInputDataCompose(viewmodel: MainViewmodel = hiltViewModel(), navHo
     val openDialogBox = remember {
         mutableStateOf(false)
     }
+
+    val isLoading by viewmodel.isLoading.collectAsState()
+    val memberCreatedResponse by viewmodel.memberCreatedResponse.collectAsState()
 
     val localContext = LocalContext.current
 
@@ -139,15 +145,21 @@ fun InitiationInputDataCompose(viewmodel: MainViewmodel = hiltViewModel(), navHo
                onDismissRequest = { openDialogBox.value = false },
                onConfirmation = {
                    openDialogBox.value = false
-                   viewmodel.insertInitiationDetails(dummyInitiationData)
-                   Toast.makeText(localContext, "Initiation Successfully Added", Toast.LENGTH_SHORT).show()
-                   navHostController.navigate(AppConstant.FragmentTitles.UPLOAD_COMPLETE_SCREEN)
+                   viewmodel.saveMemberToFirebase(dummyInitiationData)
                },
                title = "Adding New Member",
                text = "These detail are important to be input correctly, Please confirm "
            )
         }
 
+    }
+
+    if (isLoading){
+        CircularLoader("Saving the member...")
+    }
+    if (memberCreatedResponse){
+        Toast.makeText(localContext, "Initiation Successfully Added", Toast.LENGTH_SHORT).show()
+        navHostController.navigate(AppConstant.FragmentTitles.UPLOAD_COMPLETE_SCREEN)
     }
 }
 
