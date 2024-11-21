@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.example.initiations.R
 import com.example.initiations.di.viewmodols.MainViewmodel
 import com.example.initiations.ui.theme.common_compose.CompletedAnimation
 import com.example.initiations.util.AppConstant
@@ -20,6 +21,7 @@ import kotlinx.coroutines.delay
 fun UploadCompleteScreen(navController: NavController) {
     val mainViewmodel:MainViewmodel = hiltViewModel()
 
+
     Box(
         modifier = Modifier
             .padding(40.dp)
@@ -27,7 +29,7 @@ fun UploadCompleteScreen(navController: NavController) {
             .padding(20.dp),
         contentAlignment = Alignment.Center,
     ) {
-        CompletedAnimation()
+        CompletedAnimation(R.raw.completed)
         LaunchedEffect(this) {
             delay(2000L)
             navController.popBackStack( AppConstant.SerializeScreenName.TAOCHIN_LIST_SCREEN,false)

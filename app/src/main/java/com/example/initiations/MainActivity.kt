@@ -13,6 +13,7 @@ import androidx.navigation.toRoute
 import com.example.initiations.di.entities.InitiationFiled
 import com.example.initiations.ui.theme.fragments.SplashScreenCompose
 import com.example.initiations.ui.theme.fragments.UploadCompleteScreen
+import com.example.initiations.ui.theme.fragments.first_time_sync_screen.FirstTimeSyncScreenCompose
 import com.example.initiations.ui.theme.fragments.initiation_form.InitiationDetails
 import com.example.initiations.ui.theme.fragments.login_screen.LoginScreenCompose
 import com.example.initiations.ui.theme.fragments.taocin_detail_screen.MemberDetailScreen
@@ -42,6 +43,9 @@ class MainActivity : ComponentActivity() {
             //login screen
             composable(AppConstant.FragmentTitles.LOGIN_SCREEN){
                 LoginScreenCompose(navController)
+            }
+            composable(AppConstant.FragmentTitles.FIRST_TIME_SYNC_SCREEN) {
+                FirstTimeSyncScreenCompose(navController)
             }
             composable(AppConstant.FragmentTitles.INITIATION_INSERTION){
                 InitiationDetails(navController)

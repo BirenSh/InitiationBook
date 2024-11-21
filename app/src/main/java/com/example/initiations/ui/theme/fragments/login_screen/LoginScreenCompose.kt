@@ -84,7 +84,7 @@ fun LoginScreenCompose(navController: NavHostController) {
                         ) {
                             Toast.makeText(localContext, "Login Successful", Toast.LENGTH_SHORT)
                                 .show()
-                            navController.navigate(AppConstant.SerializeScreenName.TAOCHIN_LIST_SCREEN)
+                            navController.navigate(AppConstant.FragmentTitles.FIRST_TIME_SYNC_SCREEN)
                         } else Toast.makeText(localContext, "Failed login", Toast.LENGTH_SHORT)
                             .show()
                     },

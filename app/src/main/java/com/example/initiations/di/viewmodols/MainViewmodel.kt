@@ -43,28 +43,6 @@ class MainViewmodel @Inject constructor (
             _isLoading.value = false
 
         }
-
-        // getting data from firebase
-//        viewModelScope.launch {
-//            delay(5000)
-//            val firebaseRef  = firestore.collection("Hong ci").document("2024").collection("InitiationMembers")
-//            firebaseRef.get()
-//                .addOnSuccessListener {documentSnapshot->
-//                   for(doc in documentSnapshot){
-//                       val data = doc.toObject<InitiationFiled>(InitiationFiled::class.java)
-//                       defaultList.add(data)
-//                       println("=====dataName: ${data.personName}")
-//                       _initiationMembers.value = defaultList
-//                       _searchedList.value = defaultList
-//                       _isLoading.value = false
-//                   }
-//
-//                }
-//                .addOnFailureListener { exception->
-//                    println("========ex: $exception")
-//                }
-//
-//        }
     }
 
     fun getFilterMembers(gender:String?, selectedYear:Int?, dharmaMeeting:Boolean){

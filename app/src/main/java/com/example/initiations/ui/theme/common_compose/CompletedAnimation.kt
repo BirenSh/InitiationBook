@@ -8,12 +8,12 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
-import com.example.initiations.R
 
 @Composable
-fun CompletedAnimation() {
+fun CompletedAnimation(lottieIcon:Int) {
+    // TODO: rename this func
     val completeLottieComposition = rememberLottieComposition(spec = LottieCompositionSpec.RawRes(
-        R.raw.completed
+        lottieIcon
     ))
 
     val preloaderProgress by animateLottieCompositionAsState(

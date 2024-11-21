@@ -16,7 +16,13 @@ interface CommonDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertInitiationDetail(initiationFiled: InitiationFiled):Long
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertListOfMembers(initiationFiledList:List<InitiationFiled>)
+
     @RawQuery
     suspend fun getFilterMember(rowValue:SimpleSQLiteQuery):List<InitiationFiled>
+
+    @Query("delete from initiationperson")
+    suspend fun deleteAllMembers()
 
 }

@@ -10,6 +10,7 @@ object AppConstant {
         const val INITIATION_INSERTION = "InitiationInsertion"
         const val UPLOAD_COMPLETE_SCREEN = "UploadCompleteScreen"
         const val MEMBER_DETAIL_SCREEN = "MemberDetailScreen"
+        const val FIRST_TIME_SYNC_SCREEN = "FirstTimeSyncScreenCompose"
 
     }
     object SerializeScreenName{
