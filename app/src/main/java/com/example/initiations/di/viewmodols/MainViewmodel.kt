@@ -35,7 +35,6 @@ class MainViewmodel @Inject constructor (
         _isLoading.value=  true
         viewModelScope.launch {
             _isLoading.value = true
-            delay(5000)
             val getMember = localRepository.getInitiationMembers()
             println("=========second: ${getMember.size}")
             _initiationMembers.value = getMember    //updating value to initialize the list for the first time

@@ -18,6 +18,11 @@ object AppConstant {
         object TAOCHIN_LIST_SCREEN
     }
 
-    const val LOGIN_USER_NAME = "Birendra"
-    const val LOGIN_PASSWORD = "1234"
+    const val LOGIN_USER_NAME = "birendra@gmail.com"
+    const val LOGIN_PASSWORD = "123456"
+
+    object ValueState{
+        const val SUCCESS = "Success"
+        const val FAILED = "Failed"
+    }
 }

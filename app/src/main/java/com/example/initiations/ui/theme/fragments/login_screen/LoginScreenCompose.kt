@@ -16,6 +16,8 @@ import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -25,8 +27,11 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.initiations.R
+import com.example.initiations.di.viewmodols.LoginViewModel
+import com.example.initiations.ui.theme.common_compose.CircularLoader
 import com.example.initiations.ui.theme.common_compose.CustomElevatedButton
 import com.example.initiations.ui.theme.common_compose.OutlinedTextFieldCompose
 import com.example.initiations.util.AppConstant
@@ -34,9 +39,10 @@ import com.example.initiations.util.AppConstant
 @Composable
 fun LoginScreenCompose(navController: NavHostController) {
     val localContext = LocalContext.current
-
+    val loginViewModel = hiltViewModel<LoginViewModel>()
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+
     username = AppConstant.LOGIN_USER_NAME
     password = AppConstant.LOGIN_PASSWORD
 
@@ -78,15 +84,18 @@ fun LoginScreenCompose(navController: NavHostController) {
 
                 CustomElevatedButton(
                     onClick = {
-                        if (username.equals(AppConstant.LOGIN_USER_NAME.trim(), true) && password.equals(
-                                AppConstant.LOGIN_PASSWORD.trim(),true
-                            )
-                        ) {
-                            Toast.makeText(localContext, "Login Successful", Toast.LENGTH_SHORT)
-                                .show()
-                            navController.navigate(AppConstant.FragmentTitles.FIRST_TIME_SYNC_SCREEN)
-                        } else Toast.makeText(localContext, "Failed login", Toast.LENGTH_SHORT)
-                            .show()
+                        loginViewModel.loginLoading.value = true
+                        loginViewModel.loginFromFirebaseAuth(username,password)
+
+//                        if (username.equals(AppConstant.LOGIN_USER_NAME.trim(), true) && password.equals(
+//                                AppConstant.LOGIN_PASSWORD.trim(),true
+//                            )
+//                        ) {
+//                            Toast.makeText(localContext, "Login Successful", Toast.LENGTH_SHORT)
+//                                .show()
+//                            navController.navigate(AppConstant.FragmentTitles.FIRST_TIME_SYNC_SCREEN)
+//                        } else Toast.makeText(localContext, "Failed login", Toast.LENGTH_SHORT)
+//                            .show()
                     },
                     modifier = Modifier.fillMaxWidth(0.5f),
                     text = "Log in"
@@ -95,6 +104,25 @@ fun LoginScreenCompose(navController: NavHostController) {
         }
 
     }
+
+    if (loginViewModel.loginLoading.collectAsState().value){
+        CircularLoader("Loading to App")
+    }
+    LaunchedEffect(Unit) {
+        loginViewModel.loginResult.collect{
+            when(it){
+                AppConstant.ValueState.SUCCESS -> {
+                    Toast.makeText(localContext, "Login successful", Toast.LENGTH_SHORT).show()
+                    println("============success toast")
+                    navController.navigate(AppConstant.FragmentTitles.FIRST_TIME_SYNC_SCREEN)
+                }
+                AppConstant.ValueState.FAILED -> {
+                    Toast.makeText(localContext, "Failed to Login", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
 }
 
 

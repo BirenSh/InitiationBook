@@ -14,7 +14,7 @@ navigationCompose = "2.8.0-alpha08"
 daggerHilt = "2.49"
 googleServices = "4.4.2"
 firebaseFirestore = "25.0.0"
-firebaseAuth = "23.0.0"
+firebaseAuth = "23.1.0"
 
 
 [libraries]
