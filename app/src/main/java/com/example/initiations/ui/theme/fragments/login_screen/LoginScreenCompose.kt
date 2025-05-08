@@ -84,18 +84,18 @@ fun LoginScreenCompose(navController: NavHostController) {
 
                 CustomElevatedButton(
                     onClick = {
-                        loginViewModel.loginLoading.value = true
-                        loginViewModel.loginFromFirebaseAuth(username,password)
+//                        loginViewModel.loginLoading.value = true
+//                        loginViewModel.loginFromFirebaseAuth(username,password)
 
-//                        if (username.equals(AppConstant.LOGIN_USER_NAME.trim(), true) && password.equals(
-//                                AppConstant.LOGIN_PASSWORD.trim(),true
-//                            )
-//                        ) {
-//                            Toast.makeText(localContext, "Login Successful", Toast.LENGTH_SHORT)
-//                                .show()
-//                            navController.navigate(AppConstant.FragmentTitles.FIRST_TIME_SYNC_SCREEN)
-//                        } else Toast.makeText(localContext, "Failed login", Toast.LENGTH_SHORT)
-//                            .show()
+                        if (username.equals(AppConstant.LOGIN_USER_NAME.trim(), true) && password.equals(
+                                AppConstant.LOGIN_PASSWORD.trim(),true
+                            )
+                        ) {
+                            Toast.makeText(localContext, "Login Successful", Toast.LENGTH_SHORT)
+                                .show()
+                            navController.navigate(AppConstant.FragmentTitles.FIRST_TIME_SYNC_SCREEN)
+                        } else Toast.makeText(localContext, "Failed login", Toast.LENGTH_SHORT)
+                            .show()
                     },
                     modifier = Modifier.fillMaxWidth(0.5f),
                     text = "Log in"

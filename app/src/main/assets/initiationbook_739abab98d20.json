@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "initiationbook",
+  "private_key_id": "739abab98d2047cc56f4f2a510f049d13796ad85",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQC6tTjmjqvtKPBg\nDwvbY60vUnp9JxsDt+N9FYFbr+UywQ7wiz7As6E7033ZUC1c63NxZ7yUqknPbFOk\nn9dnJds55xKEYp5PFDV0VL6bHEFFtGgOMlEjrt2drP+iU2KPfHfKyJXPCdAnJdtm\ncMakv8ntMnp6xhDXAVv8mAm5/8GPsgckgtYjFA7h608O9mcxreFOTDdn9xI0bJHm\nPO2DctNCjQvwRcqTncCFqB+BADJcx9Ze8cgy3HoxHU0BsYRpYQr9TjbPoIsUFJhm\nARbJ1IPFjnIvMpTmlXZJswPP6aSYdu+f2MbKYKwz3xEGk0PLJxTV/AW2DUIBDzTO\nJxd1dRvBAgMBAAECggEAD1/ZJMYikuvEOHrAtJMFibAqYTgpRbH8p/oPfgHy1w41\n+VmUBCj+icdBdZXAOIa0acYbrafEnnGahSO66HXh8qeMGy3mQJeGy9KnI+1slA12\nJJYg35X4jpF2dvLUGsHqeN6x1FvH4dNgmNPITbxzx6YYlxfMfvHwFdGcum3creT8\nQuFLF9l7kJ+nSwwuXpgLSPQlZ2FKsZiMRlbmLXrqDIpcnqswjcVnvXs8g9EfA+Vr\n1vGbtxONTBZHS4lvtfXiIPLVGp0m/t3/XaHJNpd6jD4BR0psjgeh1yqJuLbXKIly\nqtGs1teJIWYaGj5MMbw8inNYrC9iiu9XACXA4EgYmQKBgQDu83GqVST5CX4I6ylk\nfYqbIdbxYGvogiqWIt/vQp+6aS7Cs29J4czcVPyCyuA03j/IsF6eekAQ2g3X4td7\n7boHMRU/9uCWMKEo56mmRRZI3CPZwIN3ck2DBJm/ZLTkObICZuossBpVbS5HVn/K\n9cQFLhzPkEl57Z5Wp/f8oUiTaQKBgQDIB4iJLvT3NTid6yNzY6KhbMSqjaONyzjN\n+VOWhSEtVQp7HcOI/fRTiUQfWb2jL2XJaiArAs7Ckw8JQeWN9T802wrh8PvjXAxQ\naQFm6A4pLv3/yiOWFr59YW+t3wnZxcqjmWok7qsSp1jtrReeqbx9mZxOvHg1ndyi\nzlYY0SaymQKBgQCy7CUzhxftRldSdEwFTB/qc5dQHIQQkM80pp6JuJiD69iwv81Y\nRDSy0wxVH3Zs//JA4xemkSHBvJVbDyeNS3/dfLpNsB2ROI6kY3tb3iWGnxhVJ9sJ\nKNSzg1FgyBbPQghx1gAJQEAnsV5S2olMP2TtAA9guMjb/LpwZsvBJj+C6QKBgQCT\n4I3d7SsIfv4GMUmaCrS2ZjTWabPaJb0u+P4ErxMh8la3Qf/GjQhNoZMNIkkCFQ5I\n4v45DfBRBGr/Swor8nzx1GWtN3zgTrKD171DmJavd6ArtAKu+M2G37uybMtZhdIT\nNF22RAOQ3MrvmyF1GMLSj/dwdgDgkn4ElkosOqNDMQKBgQDTYLb0ldZIwtNHQPe1\nDocqZVeEhpDFzLS7XtEKK5VWeLTqFMsCIAt6Lz7EXmfHJ5yeCi1k2sef74O4sLJF\nqcwj6oBqQZPmw2vE0miU2DoRQmp0vtfsoZ8xWVjrX/EYBj36DOgqtcbf/hKAMd3p\nJxttTPshIWK1vgz80vHBqt8PZA==\n-----END PRIVATE KEY-----\n",
+  "client_email": "initiationbookservice@initiationbook.iam.gserviceaccount.com",
+  "client_id": "110068617717921909557",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/initiationbookservice%40initiationbook.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

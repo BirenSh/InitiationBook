@@ -1,5 +1,6 @@
 [versions]
 agp = "8.3.2"
+hiltAndroidVersion = "2.49"
 kotlin = "2.0.0"
 coreKtx = "1.13.1"
 junit = "4.13.2"
@@ -15,11 +16,20 @@ daggerHilt = "2.49"
 googleServices = "4.4.2"
 firebaseFirestore = "25.0.0"
 firebaseAuth = "23.1.0"
+roomVersion = "2.7.1"
+calssDuplicate = "1.5.0"
+
+google-api-client = "1.33.2"
+google-oauth-client = "1.33.1"
+google-sheets-api = "v4-rev621-1.25.0"
+google-http-client-jackson2 = "1.41.5"
 
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
+dagger-hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroidVersion" }
+google-hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hiltAndroidVersion" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
@@ -39,12 +49,15 @@ firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore
 lottie-compose = { module = "com.airbnb.android:lottie-compose", version.ref = "lottieCompose" }
 firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version.ref = "firebaseAuth" }
 
+#google-oauth-client-jetty = { module = "com.google.oauth-client:google-oauth-client-jetty", version.ref = "google-oauth-client" }
+#google-http-client-jackson2 = { module = "com.google.http-client:google-http-client-jackson2", version.ref = "google-http-client-jackson2" }
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 daggerHilt = { id = "com.google.dagger.hilt.android", version.ref = "daggerHilt" }
 kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+
 
 
 

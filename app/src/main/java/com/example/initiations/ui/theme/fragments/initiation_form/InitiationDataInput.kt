@@ -27,6 +27,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -44,7 +45,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.initiations.R
 import com.example.initiations.di.entities.InitiationFiled
-import com.example.initiations.di.viewmodols.InitiationInputDataViewModel
+import com.example.initiations.di.modules.GoogleSheetHelper
+import com.example.initiations.di.viewmodols.GoogleSheetsViewModel
 import com.example.initiations.ui.theme.common_compose.CircularLoader
 import com.example.initiations.ui.theme.common_compose.CustomAlertDialog
 import com.example.initiations.ui.theme.common_compose.CustomElevatedButton
@@ -52,12 +54,16 @@ import com.example.initiations.ui.theme.common_compose.DynamicSelectTextField
 import com.example.initiations.ui.theme.common_compose.OutlinedTextFieldCompose
 import com.example.initiations.util.AppConstant
 import com.example.initiations.util.DateUtil
+import com.example.initiations.util.UiState
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.util.Random
 
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, DelicateCoroutinesApi::class)
 @Composable
-fun InitiationInputDataCompose(viewmodel: InitiationInputDataViewModel = hiltViewModel(), navHostController: NavHostController){
+fun InitiationInputDataCompose(viewmodel: GoogleSheetsViewModel = hiltViewModel(), navHostController: NavHostController){
     val personName = remember { mutableStateOf("") }
     val personAge = remember { mutableStateOf("0") }
     val education = remember { mutableStateOf("") }
@@ -76,11 +82,11 @@ fun InitiationInputDataCompose(viewmodel: InitiationInputDataViewModel = hiltVie
     val openDialogBox = remember {
         mutableStateOf(false)
     }
-
-    val isLoading by viewmodel.isLoading.collectAsState()
-    val memberCreatedResponse by viewmodel.memberCreatedResponse.collectAsState()
+    val screenState by viewmodel.initiationState.collectAsState()
 
     val localContext = LocalContext.current
+
+
 
     Column(
         modifier = Modifier
@@ -145,7 +151,8 @@ fun InitiationInputDataCompose(viewmodel: InitiationInputDataViewModel = hiltVie
                onDismissRequest = { openDialogBox.value = false },
                onConfirmation = {
                    openDialogBox.value = false
-                   viewmodel.saveMemberToFirebase(dummyInitiationData)
+                   viewmodel.createRow(dummyInitiationData)
+
                },
                title = "Adding New Member",
                text = "These detail are important to be input correctly, Please confirm "
@@ -154,13 +161,21 @@ fun InitiationInputDataCompose(viewmodel: InitiationInputDataViewModel = hiltVie
 
     }
 
-    if (isLoading){
-        CircularLoader("Saving the member...")
+    when (screenState){
+        is UiState.Idle -> Unit
+        is UiState.Loading -> CircularLoader("Saving the member...")
+        is UiState.Success -> {
+            Toast.makeText(localContext, "Initiation Successfully Added", Toast.LENGTH_SHORT).show()
+            LaunchedEffect(Unit) {
+                navHostController.navigate(AppConstant.FragmentTitles.UPLOAD_COMPLETE_SCREEN)
+            }
+        }
+        is UiState.Error -> {
+            val error = (screenState as UiState.Error).message
+            Toast.makeText(localContext, error ?: "Something went wrong", Toast.LENGTH_SHORT).show()
+        }
     }
-    if (memberCreatedResponse){
-        Toast.makeText(localContext, "Initiation Successfully Added", Toast.LENGTH_SHORT).show()
-        navHostController.navigate(AppConstant.FragmentTitles.UPLOAD_COMPLETE_SCREEN)
-    }
+
 }
 
 

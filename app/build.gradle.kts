@@ -1,3 +1,4 @@
+import java.util.Properties
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
@@ -5,9 +6,19 @@ plugins {
     id("kotlin-kapt")
     alias(libs.plugins.kotlinSerialization)
     alias(libs.plugins.compose.compiler)
+//    alias(libs.plugins.find.duplicate)
+
     id("com.google.gms.google-services")
 
 }
+
+// Top of the file
+val localP = Properties()
+val localFile = rootProject.file("local.properties")
+if (localFile.exists()) {
+    localP.load(localFile.inputStream())
+}
+
 
 android {
     namespace = "com.example.initiations"
@@ -24,6 +35,8 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+        buildConfigField("String", "SHEET_ID", "\"${localP["SHEET_ID"]}\"")
+
     }
 
     buildTypes {
@@ -44,15 +57,22 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.14"
     }
     packaging {
         resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            excludes += "META-INF/{AL2.0,LGPL2.1}"
+            excludes += "META-INF/INDEX.LIST"
+            excludes += "META-INF/DEPENDENCIES"
+
         }
     }
+
+
+
 }
 
 dependencies {
@@ -102,6 +122,13 @@ dependencies {
     //lottie animation
     implementation (libs.lottie.compose)
 
+    // google services
+
+    implementation ("com.google.apis:google-api-services-sheets:v4-rev20250415-2.0.0")
+    implementation("com.google.api-client:google-api-client-android:2.2.0")
+
+    implementation(libs.dagger.hilt.android)
+    kapt(libs.google.hilt.compiler)
 
 
 }

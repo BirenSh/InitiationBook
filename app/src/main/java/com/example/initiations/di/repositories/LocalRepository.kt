@@ -5,8 +5,11 @@ import com.example.initiations.daos.CommonDao
 import com.example.initiations.di.entities.InitiationFiled
 import java.util.Calendar
 import javax.inject.Inject
+import javax.inject.Singleton
 
-class LocalRepository @Inject constructor(val commonDao: CommonDao) {
+class LocalRepository @Inject constructor(
+    val commonDao: CommonDao
+) {
     suspend fun insertListOfInitiationDetail(initiationFiledList:List<InitiationFiled> ) {
         return commonDao.insertListOfMembers(initiationFiledList)
     }

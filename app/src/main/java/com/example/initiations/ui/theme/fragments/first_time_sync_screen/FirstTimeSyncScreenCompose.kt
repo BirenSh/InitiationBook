@@ -26,8 +26,8 @@ fun FirstTimeSyncScreenCompose(navController: NavHostController) {
     ) {
         CompletedAnimation(R.raw.sync_lottie)
         LaunchedEffect(this) {
-            firstTimeSyncViewModel.getMembersFromFirebase()
-            delay(10000L)
+//            firstTimeSyncViewModel.getMembersFromFirebase()
+            delay(500L)
             navController.navigate(AppConstant.SerializeScreenName.TAOCHIN_LIST_SCREEN)
         }
     }
