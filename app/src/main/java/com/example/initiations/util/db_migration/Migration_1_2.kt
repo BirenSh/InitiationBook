@@ -1,4 +1,4 @@
-package com.example.initiations.util
+package com.example.initiations.util.db_migration
 
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase

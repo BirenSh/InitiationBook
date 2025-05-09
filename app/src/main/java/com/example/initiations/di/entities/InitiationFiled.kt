@@ -13,7 +13,7 @@ data class InitiationFiled(
     @Nonnull
     val personName :String = "",
     @Nonnull
-    val personAge:Int = 0,
+    val personAge:String = "0",
     @Nonnull
     val gender:String = "",
     @Nonnull
