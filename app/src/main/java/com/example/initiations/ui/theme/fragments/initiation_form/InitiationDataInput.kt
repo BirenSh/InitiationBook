@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -40,6 +41,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -60,9 +62,6 @@ import com.example.initiations.util.UiState
 @Composable
 fun InitiationInputDataCompose(viewmodel: GoogleSheetsViewModel = hiltViewModel(), navHostController: NavHostController){
     val formState = remember { mutableStateOf(InitiationFiled()) }
-
-    val selectedValue = remember { mutableStateOf("") }
-    val initiationDate = remember { mutableStateOf("") }
 
     val openDialogBox = remember {
         mutableStateOf(false)
@@ -103,6 +102,9 @@ fun InitiationInputDataCompose(viewmodel: GoogleSheetsViewModel = hiltViewModel(
            CustomAlertDialog(
                onDismissRequest = { openDialogBox.value = false },
                onConfirmation = {
+                   val personId = DateUtil.generatePersonId(formState.value.personName)
+                   formState.value = formState.value.copy(personId = personId)
+
                    openDialogBox.value = false
                    viewmodel.createRow(formState.value)
 
@@ -140,7 +142,7 @@ fun InputCompose(formState: MutableState<InitiationFiled>) {
         onValueChange = { formState.value = formState.value.copy(personName = it) },
         placeholder = stringResource(id = R.string.person_name),
         icon = Icons.Default.Person,
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier.fillMaxWidth(),
     )
 
     Row(
@@ -190,6 +192,15 @@ fun InputCompose(formState: MutableState<InitiationFiled>) {
     )
 
     FormInputField(
+        value = formState.value.contact,
+        onValueChange = { formState.value = formState.value.copy(contact = it) },
+        placeholder = stringResource(id = R.string.contact),
+        icon = Icons.Default.Edit,
+        keyboardType = KeyboardType.Number,
+        modifier = Modifier.fillMaxWidth()
+    )
+
+    FormInputField(
         value = formState.value.masterName,
         onValueChange = { formState.value = formState.value.copy(masterName = it) },
         placeholder = stringResource(id = R.string.master_name),
@@ -227,6 +238,7 @@ fun InputCompose(formState: MutableState<InitiationFiled>) {
         placeholder = stringResource(id = R.string.merits_fee),
         icon = Icons.Default.Edit,
         keyboardType = KeyboardType.Number,
+        imeAction = ImeAction.Done,
         modifier = Modifier.fillMaxWidth()
     )
 
@@ -288,6 +300,7 @@ fun FormInputField(
     placeholder: String,
     icon: ImageVector,
     keyboardType: KeyboardType = KeyboardType.Text,
+    imeAction: ImeAction = ImeAction.Next,
     modifier: Modifier = Modifier
 ) {
     OutlinedTextFieldCompose(
@@ -295,7 +308,10 @@ fun FormInputField(
         onTextChanged = onValueChange,
         placeHolder = placeholder,
         leadingIcon = icon,
-        keyBoardOption = KeyboardOptions(keyboardType = keyboardType),
+        keyBoardOption = KeyboardOptions(
+            keyboardType = keyboardType,
+            imeAction = imeAction
+        ),
         modifier = modifier
     )
 }

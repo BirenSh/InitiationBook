@@ -3,6 +3,7 @@
     <string name="person_name">Person Name</string>
     <string name="age">Age</string>
     <string name="full_address">Full Address</string>
+    <string name="contact">Contact</string>
     <string name="gender">Gender</string>
     <string name="education">Education</string>
     <string name="occupation">Occupation</string>

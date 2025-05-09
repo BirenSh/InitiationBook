@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.sqlite.db.SimpleSQLiteQuery
 import com.example.initiations.di.entities.InitiationFiled
 import com.example.initiations.di.repositories.LocalRepository
+import com.example.initiations.di.repositories.RemoteDataRepository
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
@@ -17,6 +18,7 @@ import javax.inject.Inject
 class MainViewmodel @Inject constructor (
     private val localRepository: LocalRepository,
     private val firestore: FirebaseFirestore,
+    private val remoteDataRepository: RemoteDataRepository
 ): ViewModel() {
     private val _initiationMembers = MutableStateFlow(listOf<InitiationFiled>())
     val initiationMembers = _initiationMembers

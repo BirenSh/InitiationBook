@@ -19,6 +19,9 @@ class GoogleSheetsViewModel @Inject constructor (
     private val _initiationState = MutableStateFlow<UiState<Unit>>(UiState.Idle)
     val initiationState: StateFlow<UiState<Unit>> = _initiationState
 
+    private val _memberState = MutableStateFlow<UiState<List<InitiationFiled>>>(UiState.Idle)
+    val memberState: StateFlow<UiState<List<InitiationFiled>>> = _memberState
+
 
 
     fun formInputValidation(state: InitiationFiled):Boolean{
@@ -30,28 +33,31 @@ class GoogleSheetsViewModel @Inject constructor (
                 state.masterName.isNotBlank() &&
                 state.introducerName.isNotBlank() &&
                 state.guarantorName.isNotBlank() &&
-                state.templeName.isNotBlank()
+                state.templeName.isNotBlank() &&
+                state.contact.isNotBlank()
     }
 
     fun createRow(initiationDetails: InitiationFiled) {
         viewModelScope.launch {
-            _initiationState.value = UiState.Loading
             // Convert InitiationFiled to a row (List<Any>)
-            val initiationDetail = listOf(
-                initiationDetails.personName,
-                initiationDetails.personAge,
-                initiationDetails.gender,
-                initiationDetails.education,
-                initiationDetails.fullAddress,
-                initiationDetails.masterName,
-                initiationDetails.introducerName,
-                initiationDetails.guarantorName,
-                initiationDetails.templeName,
-                initiationDetails.initiationDate,
-                initiationDetails.meritFee,
-                initiationDetails.is2DaysDharmaClassAttend.toString()
+            val initiationDetailMap = mapOf(
+                "Person ID" to initiationDetails.personId,
+                "Name" to initiationDetails.personName,
+                "Age" to initiationDetails.personAge,
+                "Gender" to initiationDetails.gender,
+                "Education" to initiationDetails.education,
+                "Address" to initiationDetails.fullAddress,
+                "Master" to initiationDetails.masterName,
+                "Introducer" to initiationDetails.introducerName,
+                "Guarantor" to initiationDetails.guarantorName,
+                "Temple" to initiationDetails.templeName,
+                "Initiation Date" to initiationDetails.initiationDate,
+                "Merit Fee" to initiationDetails.meritFee,
+                "2-Day Dharma Class" to initiationDetails.is2DaysDharmaClassAttend.toString(),
+                "Dharma Meeting Date" to initiationDetails.dharmaMeetingDate
             )
-            val sheetResponse = remoteDataRepository.createRow(initiationDetail)
+
+            val sheetResponse = remoteDataRepository.createRow(initiationDetailMap)
             if (sheetResponse.success) {
                 _initiationState.value = UiState.Success()
             }else{
@@ -60,6 +66,20 @@ class GoogleSheetsViewModel @Inject constructor (
 
         }
         BuildConfig.BUILD_TYPE
+    }
+
+    fun getSheetData(){
+        viewModelScope.launch {
+            _initiationState.value = UiState.Loading
+            val sheetData = remoteDataRepository.readAllSheetData()
+            if (sheetData.success){
+                _memberState.value = UiState.Success(sheetData.data)
+                println("===sheet: ${sheetData.data}")
+            }else{
+                _memberState.value = UiState.Error(sheetData.errorMessage)
+                println("===sheet: ${sheetData.errorMessage}")
+            }
+        }
     }
 
     fun updateRow(index: Int, values: List<Any>) {

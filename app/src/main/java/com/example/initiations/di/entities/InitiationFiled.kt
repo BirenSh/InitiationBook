@@ -11,9 +11,13 @@ data class InitiationFiled(
     @PrimaryKey(autoGenerate = true)
     val id:Int = 0 ,
     @Nonnull
+    val personId:String="",
+    @Nonnull
     val personName :String = "",
     @Nonnull
     val personAge:String = "0",
+    @Nonnull
+    val contact:String="",
     @Nonnull
     val gender:String = "",
     @Nonnull

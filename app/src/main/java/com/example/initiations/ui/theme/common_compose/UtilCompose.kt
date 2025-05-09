@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Groups
@@ -37,6 +38,7 @@ fun OutlinedTextFieldCompose(
     placeHolder:String,
     leadingIcon : ImageVector,
     keyBoardOption: KeyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+    keyboardActions: KeyboardActions = KeyboardActions.Default,
     text: String,
     onTextChanged: (String) -> Unit,
     modifier: Modifier = Modifier
@@ -48,6 +50,7 @@ fun OutlinedTextFieldCompose(
         placeholder = { Text(text = placeHolder) },
         label = { Text(text = placeHolder) },
         keyboardOptions = keyBoardOption,
+        keyboardActions = keyboardActions,
         modifier = modifier,
     )
 }

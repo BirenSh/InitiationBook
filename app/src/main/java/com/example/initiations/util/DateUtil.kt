@@ -16,4 +16,11 @@ object DateUtil {
         val simpleDateFormat = SimpleDateFormat("yyyy/MM/dd")
         return simpleDateFormat.format(mili)
     }
+
+    fun generatePersonId(name: String): String {
+        val formatter = java.text.SimpleDateFormat("yyyyMMdd", java.util.Locale.getDefault())
+        val datePart = formatter.format(java.util.Date())
+        val namePart = name.take(2).uppercase()
+        return datePart + namePart
+    }
 }
