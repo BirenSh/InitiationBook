@@ -7,10 +7,12 @@ import androidx.sqlite.db.SimpleSQLiteQuery
 import com.example.initiations.di.entities.InitiationFiled
 import com.example.initiations.di.repositories.LocalRepository
 import com.example.initiations.di.repositories.RemoteDataRepository
+import com.example.initiations.util.UiState
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -20,56 +22,20 @@ class MainViewmodel @Inject constructor (
     private val firestore: FirebaseFirestore,
     private val remoteDataRepository: RemoteDataRepository
 ): ViewModel() {
-    private val _initiationMembers = MutableStateFlow(listOf<InitiationFiled>())
-    val initiationMembers = _initiationMembers
 
-    private val _searchedList= MutableStateFlow(listOf<InitiationFiled>())
-    val searchedList = _searchedList
+    private val _memberListState = MutableStateFlow<UiState<List<InitiationFiled>>>(UiState.Idle)
+    val memberListState: StateFlow<UiState<List<InitiationFiled>>> = _memberListState
 
-    private val _isLoading = MutableStateFlow(false)
-    val isLoading = _isLoading
-    init {
-        getAllInitiationMembers()
-    }
 
-    fun getAllInitiationMembers(){
-        val defaultList = arrayListOf<InitiationFiled>()
-        _isLoading.value=  true
+    fun getAllMemberList() {
         viewModelScope.launch {
-            _isLoading.value = true
-            val getMember = localRepository.getInitiationMembers()
-            println("=========second: ${getMember.size}")
-            _initiationMembers.value = getMember    //updating value to initialize the list for the first time
-            _searchedList.value = getMember         // updating value to to display all the list
-            _isLoading.value = false
-
-        }
-    }
-
-    fun getFilterMembers(gender:String?, selectedYear:Int?, dharmaMeeting:Boolean){
-        viewModelScope.launch {
-            val initialQuery =StringBuilder( "Select * from initiationPerson where initiationDate like '%$selectedYear%' ")
-            if (!gender.isNullOrEmpty()){
-                 initialQuery.append ("and gender = '$gender'")
+            _memberListState.value = UiState.Loading
+            try {
+                val members = localRepository.getInitiationMembers()
+                _memberListState.value = UiState.Success(members)
+            } catch (e: Exception) {
+                _memberListState.value = UiState.Error(e.message ?: "Unexpected error")
             }
-            if (dharmaMeeting){
-                initialQuery.append ("and is2DaysDharmaClassAttend = '1'")
-            }
-            val rowQry = SimpleSQLiteQuery(initialQuery.toString())
-            println("=======final: $initialQuery")
-            val filterItems =  localRepository.getFilterMembers(rowQry)
-            _initiationMembers.value = filterItems
-            _searchedList.value = filterItems
-
-        }
-    }
-
-    fun onSearchTextChange(searchTxt:String){
-        if (searchTxt.isEmpty()){
-            _searchedList.value = _initiationMembers.value
-        }else{
-            val filterChar = _initiationMembers.value.filter { it.personName.contains(searchTxt,true) }
-            _searchedList.value = filterChar
         }
     }
 }

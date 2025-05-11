@@ -56,7 +56,6 @@ import com.example.initiations.R
 import com.example.initiations.di.entities.InitiationFiled
 import com.example.initiations.di.viewmodols.MainViewmodel
 import com.example.initiations.ui.theme.common_compose.CircularLoader
-import com.example.initiations.ui.theme.fragments.taocin_list_screen.filter_list.FilterBottomSheet
 import com.example.initiations.util.AppConstant
 import java.util.Calendar
 
@@ -65,9 +64,6 @@ import java.util.Calendar
 @Composable
 fun MemberListScreen(navController:NavController){
     val mainViewmodel:MainViewmodel = hiltViewModel()
-    val isLoading by mainViewmodel.isLoading.collectAsState()
-    val backPressedDispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
-
     Scaffold(
 
         topBar = {
@@ -86,7 +82,7 @@ fun MemberListScreen(navController:NavController){
                             imageVector = Icons.Default.RestartAlt,
                             contentDescription = "Reload",
                             modifier = Modifier.clickable {
-                                mainViewmodel.getAllInitiationMembers()
+                                mainViewmodel.getAllMemberList()
                             }
                         )
                     }
@@ -114,160 +110,11 @@ fun MemberListScreen(navController:NavController){
         },
 
         bottomBar = {
-            BottomBarComposeDesign()
         }
 
     )
 
-
-    if (isLoading) {
-        CircularLoader("Loading Taocin...")
-    }
-
     BackHandler {
         (navController.context as ComponentActivity).finish()
     }
-
-
-}
-
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun BottomBarComposeDesign() {
-
-    val localContext = LocalContext.current
-    BottomAppBar(
-        containerColor = colorResource(id = R.color.orange_light),
-        modifier = Modifier
-            .fillMaxHeight(0.08f)
-            .shadow(
-                shape = RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp), elevation = 2.dp
-            )
-    ) {
-        Row(
-            Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceAround,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            val is2DaysDmCompleteFilter = remember { mutableStateOf(false) }
-            val isMaleFilter = remember { mutableStateOf(false) }
-            val isFemaleFilter = remember { mutableStateOf(false) }
-            val selectedDateFilter = remember { mutableStateOf(Calendar.getInstance().get(Calendar.YEAR)) }
-            val listOfYear = (2020..2088).toList()
-//            val currentYear = Calendar.getInstance().get(Calendar.YEAR)
-            val getIndexOfYear = listOfYear.indexOf(selectedDateFilter.value)
-            val defaultSelectedYear = remember { mutableIntStateOf(getIndexOfYear) }
-
-
-            FilterBottomSheet(
-                is2DaysDmCompleteFilter = is2DaysDmCompleteFilter,
-                isMaleFilter = isMaleFilter,
-                isFemaleFilter = isFemaleFilter,
-                selectedDateFilter = selectedDateFilter,
-                selectedIndex = defaultSelectedYear,
-                listOfYear = listOfYear
-            )
-
-            ButtonBarItems(
-                Icons.Default.Person,
-                itemName = "person",
-                onItemClick = { Toast.makeText(localContext, "Filter", Toast.LENGTH_SHORT).show()}
-            )
-            ButtonBarItems(
-                Icons.Default.FilterList,
-                itemName = "Filter",
-                onItemClick = { Toast.makeText(localContext, "Yet to Implement", Toast.LENGTH_SHORT).show()}
-            )
-            ButtonBarItems(
-                Icons.Default.Person,
-                itemName = "Person",
-                onItemClick = { Toast.makeText(localContext, "Yet to Implement", Toast.LENGTH_SHORT).show()}
-            )
-        }
-    }
-}
-
-
-@Composable
-fun ButtonBarItems(imageVector:ImageVector, itemName:String, onItemClick: () -> Unit) {
-    Box {
-        Column(verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.clickable {
-              onItemClick()
-            }) {
-            Icon(imageVector = imageVector, contentDescription = itemName)
-            Text(text = "Filter")
-        }
-    }
-}
-
-
-@Composable
-fun TaoCinCardDesign(initiationFiled: InitiationFiled, onItemClick:(InitiationFiled)->Unit ){
-    Card(modifier = Modifier
-        .padding(10.dp)
-        .size(width = 500.dp, height = 70.dp)
-        .clickable { onItemClick(initiationFiled) },
-        elevation = CardDefaults.cardElevation(3.dp),
-        colors = CardDefaults.cardColors(Color.White)
-        ){
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Start,
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(5.dp)
-        ) {
-
-            Image(
-                painter = painterResource(id = R.drawable.user_profile),
-                contentDescription ="Person",
-                modifier = Modifier
-                    .size(70.dp)
-                    .padding(2.dp)
-            )
-            Spacer(modifier = Modifier
-                .fillMaxHeight()
-                .fillMaxWidth(0.02f))
-            Column {
-                Text(
-                    text = initiationFiled.personName,
-                    style = MaterialTheme.typography.titleMedium
-                )
-                Text(text = initiationFiled.templeName,
-                    style = MaterialTheme.typography.labelMedium)
-            }
-
-            if (initiationFiled.is2DaysDharmaClassAttend){
-                Box(
-                    Modifier
-                        .padding(start = 20.dp)
-                        .fillMaxWidth()
-                        .weight(1f),
-                    contentAlignment = Alignment.CenterEnd) {
-                    Icon(
-                        imageVector = Icons.Default.Verified,
-                        contentDescription ="Person",
-                    )
-
-                }
-            }
-        }
-    }
-}
-
-@Composable
-fun dataLoading() {
-    CircularLoader("Data is loging...")
-}
-
-
-
-@Preview(showSystemUi = true)
-@Composable
-fun PreviewUI(){
-    TaoCinCardDesign(InitiationFiled(1, personName = "birad", is2DaysDharmaClassAttend = true), onItemClick = {})
-
 }
