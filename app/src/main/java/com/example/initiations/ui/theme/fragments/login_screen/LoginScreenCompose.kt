@@ -28,16 +28,29 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavHostController
+import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.Navigator
 import com.example.initiations.R
 import com.example.initiations.di.viewmodols.LoginViewModel
 import com.example.initiations.ui.theme.common_compose.CircularLoader
 import com.example.initiations.ui.theme.common_compose.CustomElevatedButton
 import com.example.initiations.ui.theme.common_compose.OutlinedTextFieldCompose
+import com.example.initiations.ui.theme.fragments.first_time_sync_screen.FirstTimeSyncScreen
+import com.example.initiations.ui.theme.fragments.first_time_sync_screen.FirstTimeSyncScreenCompose
 import com.example.initiations.util.AppConstant
 
+class LoginScreen:Screen{
+    @Composable
+    override fun Content() {
+        val navigator = LocalNavigator.current
+        LoginScreenCompose(navigator)
+    }
+
+}
+
 @Composable
-fun LoginScreenCompose(navController: NavHostController) {
+fun LoginScreenCompose(navController: Navigator?) {
     val localContext = LocalContext.current
     val loginViewModel = hiltViewModel<LoginViewModel>()
     var username by remember { mutableStateOf("") }
@@ -93,7 +106,7 @@ fun LoginScreenCompose(navController: NavHostController) {
                         ) {
                             Toast.makeText(localContext, "Login Successful", Toast.LENGTH_SHORT)
                                 .show()
-                            navController.navigate(AppConstant.FragmentTitles.FIRST_TIME_SYNC_SCREEN)
+                            navController?.push(FirstTimeSyncScreen())
                         } else Toast.makeText(localContext, "Failed login", Toast.LENGTH_SHORT)
                             .show()
                     },
@@ -114,7 +127,7 @@ fun LoginScreenCompose(navController: NavHostController) {
                 AppConstant.ValueState.SUCCESS -> {
                     Toast.makeText(localContext, "Login successful", Toast.LENGTH_SHORT).show()
                     println("============success toast")
-                    navController.navigate(AppConstant.FragmentTitles.FIRST_TIME_SYNC_SCREEN)
+                    navController?.push(FirstTimeSyncScreen())
                 }
                 AppConstant.ValueState.FAILED -> {
                     Toast.makeText(localContext, "Failed to Login", Toast.LENGTH_SHORT).show()

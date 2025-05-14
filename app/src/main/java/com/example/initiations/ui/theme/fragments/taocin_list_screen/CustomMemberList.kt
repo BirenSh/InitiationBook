@@ -39,27 +39,20 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
+import cafe.adriel.voyager.navigator.Navigator
 import com.example.initiations.R
 import com.example.initiations.di.entities.InitiationFiled
-import com.example.initiations.di.viewmodols.GoogleSheetsViewModel
 import com.example.initiations.di.viewmodols.MainViewmodel
-import com.example.initiations.util.AppConstant
 import com.example.initiations.util.UiState
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
- fun CustomMemberList(navController: NavController) {
-    val viewModel: MainViewmodel = hiltViewModel()
-    val sheetState by viewModel.memberListState.collectAsState()
-    val searchText = remember { mutableStateOf("") }
+ fun CustomMemberList(
+    sheetState: UiState<List<InitiationFiled>>,
+    onItemClick: (InitiationFiled) -> Unit
+ ) {
     val context = LocalContext.current
-
-
-    // Load data when composable is first composed
-    LaunchedEffect(Unit) {
-        viewModel.getAllMemberList()
-    }
+    val searchText = remember { mutableStateOf("") }
 
     Column(modifier = Modifier
         .fillMaxSize()
@@ -108,8 +101,7 @@ import com.example.initiations.util.UiState
             }
 
             is UiState.Success -> {
-                val allMembers =
-                    (sheetState as UiState.Success<List<InitiationFiled>>).data ?: emptyList()
+                val allMembers = (sheetState).data ?: emptyList()
 
                 // Apply search filter
                 val filteredMembers = allMembers.filter {
@@ -123,10 +115,7 @@ import com.example.initiations.util.UiState
                         items(filteredMembers) { member ->
                             TaoCinCardDesign(
                                 initiationFiled = member,
-                                onItemClick = {
-                                    // Navigate with identifier (you may need to pass ID or serialize the object)
-//                                    navController.navigate("${AppConstant.FragmentTitles.MEMBER_DETAIL_SCREEN}/${member.personId}")
-                                }
+                                onItemClick = onItemClick
                             )
                         }
                     }

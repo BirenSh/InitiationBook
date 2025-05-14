@@ -30,4 +30,8 @@ class LocalRepository @Inject constructor(
     suspend fun deleteAllMembers(){
         return commonDao.deleteAllMembers()
     }
+
+    suspend fun upsertMembers(initiationFiledList:List<InitiationFiled>){
+        return commonDao.upsertMembers(initiationFiledList)
+    }
 }

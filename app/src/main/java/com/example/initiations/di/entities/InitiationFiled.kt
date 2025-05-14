@@ -1,12 +1,16 @@
 package com.example.initiations.di.entities
 
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
 import kotlinx.serialization.Serializable
 import javax.annotation.Nonnull
 
 @Serializable
-@Entity(tableName = "initiationPerson")
+@Entity(
+    tableName = "initiationPerson",
+    indices = [Index(value = ["personId"], unique = true)]
+)
 data class InitiationFiled(
     @PrimaryKey(autoGenerate = true)
     val id:Int = 0 ,

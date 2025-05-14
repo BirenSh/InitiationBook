@@ -25,4 +25,7 @@ interface CommonDao {
     @Query("delete from initiationperson")
     suspend fun deleteAllMembers()
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun upsertMembers(initiationFiledList:List<InitiationFiled>)
+
 }

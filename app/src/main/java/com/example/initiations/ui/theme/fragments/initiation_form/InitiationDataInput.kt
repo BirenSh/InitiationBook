@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -45,7 +44,9 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavHostController
+import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.Navigator
 import com.example.initiations.R
 import com.example.initiations.di.entities.InitiationFiled
 import com.example.initiations.di.viewmodols.GoogleSheetsViewModel
@@ -54,13 +55,13 @@ import com.example.initiations.ui.theme.common_compose.CustomAlertDialog
 import com.example.initiations.ui.theme.common_compose.CustomElevatedButton
 import com.example.initiations.ui.theme.common_compose.DynamicSelectTextField
 import com.example.initiations.ui.theme.common_compose.OutlinedTextFieldCompose
-import com.example.initiations.util.AppConstant
+import com.example.initiations.ui.theme.fragments.UploadCompleteScreen
 import com.example.initiations.util.DateUtil
 import com.example.initiations.util.UiState
 
-
 @Composable
-fun InitiationInputDataCompose(viewmodel: GoogleSheetsViewModel = hiltViewModel(), navHostController: NavHostController){
+fun InitiationInputDataCompose(navigator: Navigator?){
+    val viewmodel: GoogleSheetsViewModel = hiltViewModel()
     val formState = remember { mutableStateOf(InitiationFiled()) }
 
     val openDialogBox = remember {
@@ -122,7 +123,7 @@ fun InitiationInputDataCompose(viewmodel: GoogleSheetsViewModel = hiltViewModel(
         is UiState.Success -> {
             Toast.makeText(localContext, "Initiation Successfully Added", Toast.LENGTH_SHORT).show()
             LaunchedEffect(Unit) {
-                navHostController.navigate(AppConstant.FragmentTitles.UPLOAD_COMPLETE_SCREEN)
+                navigator?.push(UploadCompleteScreen())
             }
         }
         is UiState.Error -> {

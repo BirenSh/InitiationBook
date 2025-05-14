@@ -12,13 +12,24 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.NavHostController
+import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.Navigator
 import com.example.initiations.R
-import com.example.initiations.util.AppConstant
+import com.example.initiations.ui.theme.fragments.login_screen.LoginScreen
+import com.example.initiations.ui.theme.fragments.login_screen.LoginScreenCompose
 import kotlinx.coroutines.delay
 
+class SplashScreenComposeScreen :Screen{
+    @Composable
+    override fun Content() {
+        val navigator = LocalNavigator.current
+        SplashScreenCompose(navigator)
+    }
+
+}
 @Composable
-fun SplashScreenCompose(navController: NavHostController) {
+fun SplashScreenCompose(navController: Navigator?) {
     val scale = remember {
         androidx.compose.animation.core.Animatable(0f)
     }
@@ -30,7 +41,7 @@ fun SplashScreenCompose(navController: NavHostController) {
                     OvershootInterpolator(10f).getInterpolation(it)
                 }))
                     delay(3000L)
-        navController.navigate(AppConstant.FragmentTitles.LOGIN_SCREEN)
+        navController?.push(LoginScreen())
     }
     Image(
         painter = painterResource(id =R.drawable.kotlin ),

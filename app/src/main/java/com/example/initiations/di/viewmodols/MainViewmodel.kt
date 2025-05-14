@@ -27,14 +27,32 @@ class MainViewmodel @Inject constructor (
     val memberListState: StateFlow<UiState<List<InitiationFiled>>> = _memberListState
 
 
-    fun getAllMemberList() {
+    fun getAllMemberList(){
+        viewModelScope.launch {
+            _memberListState.value = UiState.Loading
+            val sheetData = localRepository.getInitiationMembers()
+            if (sheetData.isNotEmpty()) {
+                _memberListState.value = UiState.Success(sheetData)
+            } else {
+                _memberListState.value = UiState.Error("No members found.")
+            }
+        }
+    }
+
+    fun reSyncSheetData() {
         viewModelScope.launch {
             _memberListState.value = UiState.Loading
             try {
-                val members = localRepository.getInitiationMembers()
-                _memberListState.value = UiState.Success(members)
+                val sheetData = remoteDataRepository.readAllSheetData()
+                if (sheetData.success && !sheetData.data.isNullOrEmpty()) {
+                    localRepository.upsertMembers(sheetData.data)
+                    val updatedMembers = localRepository.getInitiationMembers()
+                    _memberListState.value = UiState.Success(updatedMembers)
+                } else {
+                    _memberListState.value = UiState.Error(sheetData.errorMessage ?: "Failed to fetch remote data.")
+                }
             } catch (e: Exception) {
-                _memberListState.value = UiState.Error(e.message ?: "Unexpected error")
+                _memberListState.value = UiState.Error(e.message ?: "Unexpected error occurred during sync.")
             }
         }
     }

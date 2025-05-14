@@ -11,13 +11,24 @@ import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
-import androidx.navigation.NavHostController
+import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.Navigator
 import com.example.initiations.R
 
+
+class InitiationDetailScreen :Screen{
+    @Composable
+    override fun Content() {
+        val navigator = LocalNavigator.current
+        InitiationDetails(navigator)
+    }
+
+}
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun InitiationDetails(navController: NavHostController) {
+fun InitiationDetails(navigator: Navigator?) {
     Scaffold(
         topBar = {
             TopAppBar(
@@ -30,7 +41,7 @@ fun InitiationDetails(navController: NavHostController) {
 
         content = {paddingValue->
             Box(modifier = Modifier.padding(paddingValue)) {
-                InitiationInputDataCompose(navHostController =  navController)
+                InitiationInputDataCompose(navigator)
             }
         },
 

@@ -8,16 +8,26 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavHostController
+import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.Navigator
 import com.example.initiations.R
 import com.example.initiations.di.viewmodols.FirstTimeSyncViewModel
-import com.example.initiations.di.viewmodols.GoogleSheetsViewModel
 import com.example.initiations.ui.theme.common_compose.CompletedAnimation
+import com.example.initiations.ui.theme.fragments.taocin_list_screen.TaochinListScreen
 import com.example.initiations.util.AppConstant
 import kotlinx.coroutines.delay
 
+class FirstTimeSyncScreen :Screen{
+    @Composable
+    override fun Content() {
+        val navigator = LocalNavigator.current
+        FirstTimeSyncScreenCompose(navigator)
+    }
+
+}
 @Composable
-fun FirstTimeSyncScreenCompose(navController: NavHostController) {
+fun FirstTimeSyncScreenCompose(navController: Navigator?) {
     val firstTimeSyncViewModel: FirstTimeSyncViewModel = hiltViewModel()
 
 
@@ -27,12 +37,8 @@ fun FirstTimeSyncScreenCompose(navController: NavHostController) {
 
     // Navigate after splash delay
     LaunchedEffect(Unit) {
-        delay(500L) // Adjust duration if animation is longer
-        navController.navigate(AppConstant.SerializeScreenName.TAOCHIN_LIST_SCREEN) {
-            popUpTo(AppConstant.FragmentTitles.FIRST_TIME_SYNC_SCREEN) {
-                inclusive = true
-            }
-        }
+        delay(5000L) // Adjust duration if animation is longer
+        navController?.replaceAll(TaochinListScreen())
     }
 
     Box(

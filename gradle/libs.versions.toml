@@ -16,13 +16,8 @@ daggerHilt = "2.49"
 googleServices = "4.4.2"
 firebaseFirestore = "25.0.0"
 firebaseAuth = "23.1.0"
-roomVersion = "2.7.1"
-calssDuplicate = "1.5.0"
+voyager = "1.0.1"
 
-google-api-client = "1.33.2"
-google-oauth-client = "1.33.1"
-google-sheets-api = "v4-rev621-1.25.0"
-google-http-client-jackson2 = "1.41.5"
 
 
 [libraries]
@@ -48,6 +43,8 @@ google-services = { group = "com.google.gms", name = "google-services", version.
 firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore", version.ref = "firebaseFirestore" }
 lottie-compose = { module = "com.airbnb.android:lottie-compose", version.ref = "lottieCompose" }
 firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version.ref = "firebaseAuth" }
+voyager-navigator = { module = "cafe.adriel.voyager:voyager-navigator", version.ref = "voyager" }
+
 
 #google-oauth-client-jetty = { module = "com.google.oauth-client:google-oauth-client-jetty", version.ref = "google-oauth-client" }
 #google-http-client-jackson2 = { module = "com.google.http-client:google-http-client-jackson2", version.ref = "google-http-client-jackson2" }
