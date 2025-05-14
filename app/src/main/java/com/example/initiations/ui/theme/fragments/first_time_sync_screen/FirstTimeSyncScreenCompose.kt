@@ -30,11 +30,6 @@ class FirstTimeSyncScreen :Screen{
 fun FirstTimeSyncScreenCompose(navController: Navigator?) {
     val firstTimeSyncViewModel: FirstTimeSyncViewModel = hiltViewModel()
 
-
-    LaunchedEffect(Unit){
-        firstTimeSyncViewModel.getSheetData()
-    }
-
     // Navigate after splash delay
     LaunchedEffect(Unit) {
         delay(5000L) // Adjust duration if animation is longer

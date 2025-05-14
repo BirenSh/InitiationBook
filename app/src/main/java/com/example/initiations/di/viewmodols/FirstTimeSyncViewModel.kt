@@ -17,19 +17,17 @@ class FirstTimeSyncViewModel @Inject constructor(
     private val firestore: FirebaseFirestore,
     private val remoteDataRepository: RemoteDataRepository
 ):ViewModel() {
-init {
-    getSheetData()
-}
+    init {
+        getSheetData()
+    }
 
-    fun getSheetData(){
+    private fun getSheetData(){
         viewModelScope.launch {
+
             try {
                 val sheetData = remoteDataRepository.readAllSheetData()
                 if (sheetData.success && !sheetData.data.isNullOrEmpty()){
-                    println("===sheet: ${sheetData.data}")
                     localRepository.upsertMembers(sheetData.data)
-                }else{
-                    println("===sheet: ${sheetData.errorMessage}")
                 }
             }catch (e:Exception){
                 println("===sheet: ${e.message}")
