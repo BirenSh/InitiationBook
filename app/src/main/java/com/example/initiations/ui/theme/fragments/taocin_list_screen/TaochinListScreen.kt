@@ -37,6 +37,8 @@ import cafe.adriel.voyager.navigator.Navigator
 import com.example.initiations.R
 import com.example.initiations.di.viewmodols.MainViewmodel
 import com.example.initiations.ui.theme.fragments.initiation_form.InitiationDetailScreen
+import com.example.initiations.ui.theme.fragments.taocin_detail_screen.MemberDetailScreen
+import com.example.initiations.util.UiState
 
 
 //@Preview(showSystemUi = true)
@@ -106,7 +108,7 @@ fun TaochinListCompose(navController: Navigator?){
                 CustomMemberList(
                     sheetState = memberListState,
                     onItemClick = { member ->
-//                        navController?.push(MemberDetailScreen(member))
+                        navController?.push(MemberDetailScreen(member))
                     }
                 )
             }

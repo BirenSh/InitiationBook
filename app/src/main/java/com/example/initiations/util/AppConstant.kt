@@ -25,4 +25,9 @@ object AppConstant {
         const val SUCCESS = "Success"
         const val FAILED = "Failed"
     }
+
+    object PreFranceKey{
+        const val  LOGGED_IN = "logged_in"
+
+    }
 }

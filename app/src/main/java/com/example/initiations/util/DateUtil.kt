@@ -12,7 +12,6 @@ object DateUtil {
         if (millisecond == null) {
             mili
         } else mili = millisecond
-        println("=========milis: $millisecond")
         val simpleDateFormat = SimpleDateFormat("yyyy/MM/dd")
         return simpleDateFormat.format(mili)
     }

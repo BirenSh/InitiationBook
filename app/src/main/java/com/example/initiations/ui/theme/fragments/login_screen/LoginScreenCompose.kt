@@ -107,6 +107,8 @@ fun LoginScreenCompose(navController: Navigator?) {
                             Toast.makeText(localContext, "Login Successful", Toast.LENGTH_SHORT)
                                 .show()
                             navController?.push(FirstTimeSyncScreen())
+                            loginViewModel.isLoggedIn()
+
                         } else Toast.makeText(localContext, "Failed login", Toast.LENGTH_SHORT)
                             .show()
                     },

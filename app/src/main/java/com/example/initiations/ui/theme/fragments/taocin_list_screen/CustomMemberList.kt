@@ -102,7 +102,6 @@ import com.example.initiations.util.UiState
 
             is UiState.Success -> {
                 val allMembers = (sheetState).data ?: emptyList()
-
                 // Apply search filter
                 val filteredMembers = allMembers.filter {
                     it.personName.contains(searchText.value, ignoreCase = true)

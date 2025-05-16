@@ -2,6 +2,7 @@ package com.example.initiations.di.viewmodols
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.initiations.di.repositories.SharePrefRepository
 import com.example.initiations.util.AppConstant
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -12,7 +13,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    val firebaseAuth: FirebaseAuth
+    val firebaseAuth: FirebaseAuth,
+    val prefRepository: SharePrefRepository
 ):ViewModel() {
     private val _loginResult = MutableSharedFlow<String>()
     val loginResult = _loginResult
@@ -34,7 +36,6 @@ class LoginViewModel @Inject constructor(
                             _loginLoading.emit(true)
                             if ( result.isSuccessful){
                                 _loginResult.emit( AppConstant.ValueState.SUCCESS)
-                                println("============sucess")
                             }else{
                                 _loginLoading.emit(false)
                                 _loginResult.emit(AppConstant.ValueState.FAILED)
@@ -48,4 +49,6 @@ class LoginViewModel @Inject constructor(
 
         }
     }
+
+    fun isLoggedIn() = prefRepository.setIsLoggedIn(true)
 }

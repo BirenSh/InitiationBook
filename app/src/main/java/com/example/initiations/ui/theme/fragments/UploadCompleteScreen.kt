@@ -40,9 +40,12 @@ fun UploadCompleteCompose(navController: Navigator?) {
             .padding(20.dp),
         contentAlignment = Alignment.Center,
     ) {
-        CompletedAnimation(R.raw.completed)
+        CompletedAnimation(
+            lottieIcon =  R.raw.completed,
+            animationSpeed = 2.0f
+        )
         LaunchedEffect(this) {
-            delay(2000L)
+            delay(500L)
             navController?.popUntil { screen ->
                 screen is TaochinListScreen
             }

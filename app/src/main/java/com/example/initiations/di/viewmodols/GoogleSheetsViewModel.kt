@@ -3,6 +3,7 @@ package com.example.initiations.di.viewmodols
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.initiations.di.entities.InitiationFiled
+import com.example.initiations.di.repositories.LocalRepository
 import com.example.initiations.di.repositories.RemoteDataRepository
 import com.example.initiations.util.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,7 +15,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class GoogleSheetsViewModel @Inject constructor (
-    private val remoteDataRepository: RemoteDataRepository
+    private val remoteDataRepository: RemoteDataRepository,
+    private val localDataRepository: LocalRepository
 ):ViewModel() {
     private val _initiationState = MutableStateFlow<UiState<Unit>>(UiState.Idle)
     val initiationState: StateFlow<UiState<Unit>> = _initiationState
@@ -59,6 +61,7 @@ class GoogleSheetsViewModel @Inject constructor (
 
             val sheetResponse = remoteDataRepository.createRow(initiationDetailMap)
             if (sheetResponse.success) {
+                localDataRepository.upsertMembers(listOf(initiationDetails))
                 _initiationState.value = UiState.Success()
             }else{
                 _initiationState.value = UiState.Error(sheetResponse.errorMessage)

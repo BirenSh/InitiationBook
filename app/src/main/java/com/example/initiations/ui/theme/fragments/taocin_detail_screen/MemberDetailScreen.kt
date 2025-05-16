@@ -30,12 +30,20 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import cafe.adriel.voyager.core.screen.Screen
 import com.example.initiations.R
 import com.example.initiations.di.entities.InitiationFiled
 
 //@Preview(showSystemUi = true)
+class MemberDetailScreen(private val memberObj:InitiationFiled) :Screen{
+    @Composable
+    override fun Content() {
+        MemberDetailCompose(memberObj)
+    }
+
+}
 @Composable
-fun MemberDetailScreen(passedArg:InitiationFiled) {
+fun MemberDetailCompose(passedArg:InitiationFiled) {
     Column {
         Box(
             Modifier
