@@ -12,5 +12,4 @@
 /captures
 .externalNativeBuild
 .cxx
-
-
+app/src/main/assets/initiationbook_*.json
