@@ -1,6 +1,7 @@
 package com.example.initiations.ui.theme.fragments.initiation_form
 
 import android.widget.Toast
+import androidx.activity.ComponentActivity
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -50,6 +51,7 @@ import cafe.adriel.voyager.navigator.Navigator
 import com.example.initiations.R
 import com.example.initiations.di.entities.InitiationFiled
 import com.example.initiations.di.viewmodols.GoogleSheetsViewModel
+import com.example.initiations.di.viewmodols.SharedViewModel
 import com.example.initiations.ui.theme.common_compose.CircularLoader
 import com.example.initiations.ui.theme.common_compose.CustomAlertDialog
 import com.example.initiations.ui.theme.common_compose.CustomElevatedButton
@@ -58,18 +60,41 @@ import com.example.initiations.ui.theme.common_compose.OutlinedTextFieldCompose
 import com.example.initiations.ui.theme.fragments.UploadCompleteScreen
 import com.example.initiations.util.DateUtil
 import com.example.initiations.util.UiState
+import kotlinx.coroutines.delay
 
 @Composable
 fun InitiationInputDataCompose(navigator: Navigator?){
     val viewmodel: GoogleSheetsViewModel = hiltViewModel()
-    val formState = remember { mutableStateOf(InitiationFiled()) }
+    var formState = remember { mutableStateOf(InitiationFiled()) }
 
+    val sharedViewModel: SharedViewModel = hiltViewModel(LocalContext.current as ComponentActivity)
     val openDialogBox = remember {
         mutableStateOf(false)
     }
+    val localContext = LocalContext.current
+
     val screenState by viewmodel.initiationState.collectAsState()
 
-    val localContext = LocalContext.current
+
+    when(val scanResult = sharedViewModel.scanResult.collectAsState().value){
+        is UiState.Idle -> {}
+        is UiState.Error -> {
+            TODO()
+        }
+        UiState.Loading -> {
+            CircularLoader("Parsing Form...")
+        }
+        is UiState.Success -> {
+            val scandata = remember { mutableStateOf(scanResult.data!!) }
+            formState = scandata
+            // Now manually reset state if needed
+        }
+    }
+
+
+
+
+
 
 
 
@@ -147,7 +172,9 @@ fun InputCompose(formState: MutableState<InitiationFiled>) {
     )
 
     Row(
-        modifier = Modifier.fillMaxWidth().padding(2.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(2.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {

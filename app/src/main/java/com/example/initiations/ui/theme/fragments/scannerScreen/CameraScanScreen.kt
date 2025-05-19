@@ -8,6 +8,7 @@ import android.graphics.Paint
 import android.net.Uri
 import android.provider.MediaStore
 import android.util.Log
+import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
@@ -32,6 +33,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
@@ -43,6 +45,8 @@ import com.canhub.cropper.CropImageContract
 import com.canhub.cropper.CropImageContractOptions
 import com.canhub.cropper.CropImageOptions
 import com.canhub.cropper.CropImageView
+import com.example.initiations.di.viewmodols.LoginViewModel
+import com.example.initiations.di.viewmodols.SharedViewModel
 import com.example.initiations.util.ImageUtil
 
 class CameraScanScreen(
@@ -52,6 +56,7 @@ class CameraScanScreen(
     override fun Content() {
         val navigator = LocalNavigator.current
 
+        val sharedViewModel: SharedViewModel = hiltViewModel(LocalContext.current as ComponentActivity)
             var isProcessing by remember { mutableStateOf(false) }
 
             CameraCaptureCompose { bitmap ->
@@ -62,21 +67,20 @@ class CameraScanScreen(
                     val image = InputImage.fromBitmap(enhancedBitmap, 0)
                     recognizer.process(image)
                         .addOnSuccessListener { visionText ->
-                            visionText.textBlocks.forEach { block ->
-                                block.lines.forEach { println("==Line: ${it.text}") }
-                            }
-
-
                             val parsed = ImageUtil.parseOcrResult(visionText.text)
-                            println("parsed: $parsed")
-//                            onResult(parsed)
+                            println("===parsed: $parsed")
+                            sharedViewModel.setResult(parsed)
                             navigator?.pop()
 
+
                         }
+
                         .addOnFailureListener { e ->
                             Log.e("MLKit", "OCR failed: ${e.message}", e)
                         }
+
                 }
+
             }
 
     }
