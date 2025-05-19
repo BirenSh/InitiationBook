@@ -18,7 +18,7 @@ object GoogleSheetHelper {
 
 
     fun getSheetsService(context: Context): Sheets {
-        val inputStream = context.assets.open("initiationbook_739abab98d20.json")
+        val inputStream = context.assets.open("initiationbook-c5a1ba2ced4b.json")
         val credential = GoogleCredential.fromStream(inputStream)
             .createScoped(listOf("https://www.googleapis.com/auth/spreadsheets"))
 

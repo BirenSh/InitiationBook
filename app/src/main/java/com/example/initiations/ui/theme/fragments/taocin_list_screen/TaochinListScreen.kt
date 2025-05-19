@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.FilterList
 import androidx.compose.material.icons.filled.RestartAlt
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
@@ -36,6 +37,7 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.Navigator
 import com.example.initiations.R
 import com.example.initiations.di.viewmodols.MainViewmodel
+import com.example.initiations.ui.theme.fragments.filter_taochin.FilterTaochinScreen
 import com.example.initiations.ui.theme.fragments.initiation_form.InitiationDetailScreen
 import com.example.initiations.ui.theme.fragments.taocin_detail_screen.MemberDetailScreen
 import com.example.initiations.util.UiState
@@ -85,6 +87,15 @@ fun TaochinListCompose(navController: Navigator?){
                                 viewModel.reSyncSheetData()
                             }
                         )
+                        Icon(
+                            imageVector = Icons.Default.FilterList,
+                            contentDescription = "Reload",
+                            modifier = Modifier.clickable {
+                                navController?.push(FilterTaochinScreen())
+                            }
+                        )
+
+
                     }
                 },
             )

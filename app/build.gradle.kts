@@ -133,4 +133,12 @@ dependencies {
     kapt(libs.google.hilt.compiler)
 
 
+    // ML Kit Text Recognition
+    implementation ("com.google.mlkit:text-recognition:16.0.1")
+
+// CameraX (for image capture)
+    implementation ("androidx.camera:camera-camera2:1.4.2")
+    implementation( "androidx.camera:camera-lifecycle:1.4.2")
+    implementation( "androidx.camera:camera-view:1.4.2")
+
 }
