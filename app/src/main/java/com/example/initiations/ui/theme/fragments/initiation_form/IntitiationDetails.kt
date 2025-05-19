@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DocumentScanner
-import androidx.compose.material.icons.filled.FilterList
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
@@ -25,7 +24,7 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.Navigator
 import com.example.initiations.R
-import com.example.initiations.ui.theme.fragments.filter_taochin.FilterTaochinScreen
+import com.example.initiations.ui.theme.fragments.scannerScreen.CameraScanScreen
 
 
 class InitiationDetailScreen :Screen{
@@ -60,7 +59,13 @@ fun InitiationDetails(navigator: Navigator?) {
                             imageVector = Icons.Default.DocumentScanner,
                             contentDescription = "Scan Form",
                             modifier = Modifier.clickable {
-//
+                                navigator?.push(CameraScanScreen())
+//                                navigator?.push(
+//                                    CameraScanScreen { data ->
+//                                        println("data is : $data")
+//                                        // Handle result here, or use ViewModel / shared state
+//                                    }
+//                                )
                             }
                         )
 
